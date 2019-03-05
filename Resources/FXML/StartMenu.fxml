@@ -4,26 +4,26 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.191" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.StartMenuController">
   <children>
       <VBox alignment="CENTER" prefHeight="402.0" prefWidth="640.0">
          <children>
-            <Button alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Create New Game" textAlignment="CENTER">
+            <Button fx:id="createGameButton" onAction="#createGame" alignment="CENTER" mnemonicParsing="false" prefHeight="25.0" prefWidth="200.0" text="Create New Game" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <Button alignment="CENTER" layoutX="274.0" layoutY="185.0" mnemonicParsing="false" style="-fx-pref-width: 200;" text="Load Game" textAlignment="CENTER">
+            <Button fx:id="loadGameButton" onAction="#loadGame" alignment="CENTER" layoutX="274.0" layoutY="185.0" mnemonicParsing="false" style="-fx-pref-width: 200;" text="Load Game" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <Button alignment="CENTER" layoutX="274.0" layoutY="198.0" mnemonicParsing="false" style="-fx-pref-width: 200;" text="Save Game" textAlignment="CENTER">
+            <Button fx:id="saveGameButton" onAction="#saveGame" alignment="CENTER" layoutX="274.0" layoutY="198.0" mnemonicParsing="false" style="-fx-pref-width: 200;" text="Save Game" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <Button alignment="CENTER" layoutX="274.0" layoutY="210.0" mnemonicParsing="false" style="-fx-pref-width: 200;" text="Exit to Game Galore" textAlignment="CENTER">
+            <Button fx:id="exitGameButton" onAction="#exitGame" alignment="CENTER" layoutX="274.0" layoutY="210.0" mnemonicParsing="false" style="-fx-pref-width: 200;" text="Exit to Game Galore" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="10.0" top="10.0" />
                </VBox.margin>

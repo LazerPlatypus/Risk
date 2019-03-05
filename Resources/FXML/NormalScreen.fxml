@@ -16,11 +16,11 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" scaleShape="false" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:controller="views.GameView" prefHeight="600.0" prefWidth="900.0" scaleShape="false" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <MenuBar scaleShape="false" VBox.vgrow="NEVER">
       <menus>
-        <Menu mnemonicParsing="false" text="File">
+        <Menu mnemonicParsing="false" text="File" fx:id="file">
           <items>
             <MenuItem mnemonicParsing="false" text="New" />
             <MenuItem mnemonicParsing="false" text="Open…" />
@@ -36,7 +36,7 @@
             <MenuItem mnemonicParsing="false" text="Quit" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
+        <Menu mnemonicParsing="false" text="Edit" fx:id="edit">
           <items>
             <MenuItem mnemonicParsing="false" text="Undo" />
             <MenuItem mnemonicParsing="false" text="Redo" />
@@ -50,7 +50,7 @@
             <MenuItem mnemonicParsing="false" text="Unselect All" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Help">
+        <Menu mnemonicParsing="false" text="Help" fx:id="help">
           <items>
             <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
           </items>
@@ -63,57 +63,57 @@
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
-                        <ImageView fitHeight="398.0" fitWidth="805.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="398.0" fitWidth="805.0" pickOnBounds="true" preserveRatio="true" fx:id="mapView" />
                      </children>
                   </AnchorPane>
                   <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" scaleShape="false">
                      <children>
-                        <Button mnemonicParsing="false" text="Next">
+                        <Button mnemonicParsing="false" text="Next" fx:id="next">
                            <VBox.margin>
                               <Insets bottom="10.0" top="10.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Attack">
+                        <Button mnemonicParsing="false" text="Attack" fx:id="attack">
                            <VBox.margin>
                               <Insets bottom="20.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Player1">
+                        <Button mnemonicParsing="false" text="Player1" fx:id="player1">
                            <VBox.margin>
                               <Insets bottom="5.0" top="10.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Player2">
+                        <Button mnemonicParsing="false" text="Player2" fx:id="player2">
                            <VBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Player3">
+                        <Button mnemonicParsing="false" text="Player3" fx:id="player3">
                            <VBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Player4">
+                        <Button mnemonicParsing="false" text="Player4" fx:id="4">
                            <VBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Player5">
+                        <Button mnemonicParsing="false" text="Player5" fx:id="5">
                            <VBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </VBox.margin>
                         </Button>
-                        <Button layoutX="28.0" layoutY="160.0" mnemonicParsing="false" text="Player6">
+                        <Button layoutX="28.0" layoutY="160.0" mnemonicParsing="false" text="Player6" fx:id="6">
                            <VBox.margin>
                               <Insets bottom="10.0" top="5.0" />
                            </VBox.margin>
                         </Button>
-                        <Button layoutX="28.0" layoutY="295.0" mnemonicParsing="false" text="AUX1">
+                        <Button layoutX="28.0" layoutY="295.0" mnemonicParsing="false" text="AUX1" fx:id="aux1">
                            <VBox.margin>
                               <Insets bottom="5.0" top="15.0" />
                            </VBox.margin>
                         </Button>
-                        <Button layoutX="28.0" layoutY="325.0" mnemonicParsing="false" text="AUX2">
+                        <Button layoutX="28.0" layoutY="325.0" mnemonicParsing="false" text="AUX2" fx:id="aux2">
                            <VBox.margin>
                               <Insets top="5.0" />
                            </VBox.margin>
@@ -126,7 +126,7 @@
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" scaleShape="false">
                      <children>
-                        <ImageView fitHeight="169.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="169.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" fx:id="selectedItemView" />
                      </children>
                   </Pane>
                   <GridPane prefHeight="169.0" prefWidth="615.0" scaleShape="false">
@@ -142,9 +142,9 @@
                   </GridPane>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" scaleShape="false">
                      <children>
-                        <Button mnemonicParsing="false" text="Button" />
-                        <Button mnemonicParsing="false" text="Button" />
-                        <Button mnemonicParsing="false" text="Button" />
+                        <Button mnemonicParsing="false" text="Button" fx:id="button1" />
+                        <Button mnemonicParsing="false" text="Button" fx:id="button2" />
+                        <Button mnemonicParsing="false" text="Button" fx:id="button3" />
                      </children>
                   </VBox>
                </children>
