@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -16,11 +17,11 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:controller="views.GameView" prefHeight="600.0" prefWidth="900.0" scaleShape="false" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="600.0" prefWidth="900.0" scaleShape="false" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.GameView">
   <children>
     <MenuBar scaleShape="false" VBox.vgrow="NEVER">
       <menus>
-        <Menu mnemonicParsing="false" text="File" fx:id="file">
+        <Menu fx:id="file" mnemonicParsing="false" text="File">
           <items>
             <MenuItem mnemonicParsing="false" text="New" />
             <MenuItem mnemonicParsing="false" text="Open…" />
@@ -36,7 +37,7 @@
             <MenuItem mnemonicParsing="false" text="Quit" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Edit" fx:id="edit">
+        <Menu fx:id="edit" mnemonicParsing="false" text="Edit">
           <items>
             <MenuItem mnemonicParsing="false" text="Undo" />
             <MenuItem mnemonicParsing="false" text="Redo" />
@@ -50,7 +51,7 @@
             <MenuItem mnemonicParsing="false" text="Unselect All" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Help" fx:id="help">
+        <Menu fx:id="help" mnemonicParsing="false" text="Help">
           <items>
             <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
           </items>
@@ -63,57 +64,103 @@
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                      <children>
-                        <ImageView fitHeight="398.0" fitWidth="805.0" pickOnBounds="true" preserveRatio="true" fx:id="mapView" />
+                        <ImageView fx:id="mapView" fitHeight="398.0" fitWidth="805.0" pickOnBounds="true" preserveRatio="true" />
+                        <Button fx:id="northAmericaSelector" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#selectItem" text="North America" />
+                        <Button fx:id="southAmericaSelector" layoutX="215.0" layoutY="14.0" mnemonicParsing="false" onAction="#selectItem" text="South America" />
+                        <Button fx:id="europeSelector" layoutX="330.0" layoutY="14.0" mnemonicParsing="false" onAction="#selectItem" text="Europe" />
+                        <Button fx:id="africaSelector" layoutX="505.0" layoutY="14.0" mnemonicParsing="false" onAction="#selectItem" text="Africa" />
+                        <Button fx:id="asiaSelector" layoutX="200.0" layoutY="199.0" mnemonicParsing="false" onAction="#selectItem" text="Asia" />
+                        <Button fx:id="australiaSelector" layoutX="670.0" layoutY="14.0" mnemonicParsing="false" onAction="#selectItem" text="Australia" />
+                        <Button fx:id="alaskaSelector" layoutX="14.0" layoutY="54.0" mnemonicParsing="false" onAction="#selectItem" text="Alaska" />
+                        <Button fx:id="albertaSelector" layoutX="14.0" layoutY="91.0" mnemonicParsing="false" onAction="#selectItem" text="Alberta" />
+                        <Button fx:id="centralAmericaSelector" layoutX="14.0" layoutY="125.0" mnemonicParsing="false" onAction="#selectItem" text="Central America" />
+                        <Button fx:id="easternUnitedStatesSelector" layoutX="14.0" layoutY="163.0" mnemonicParsing="false" onAction="#selectItem" text="Eastern United States" />
+                        <Button fx:id="greenlandSelector" layoutX="14.0" layoutY="199.0" mnemonicParsing="false" onAction="#selectItem" text="Greenland" />
+                        <Button fx:id="northwestTerritorySelector" layoutX="14.0" layoutY="231.0" mnemonicParsing="false" onAction="#selectItem" text="Northwest Territory" />
+                        <Button fx:id="centeralCanadaSelector" layoutX="14.0" layoutY="265.0" mnemonicParsing="false" onAction="#selectItem" text="Centeral Canada" />
+                        <Button fx:id="easternCanadaSelector" layoutX="13.0" layoutY="299.0" mnemonicParsing="false" onAction="#selectItem" text="Eastern Canada" />
+                        <Button fx:id="westernUnitedStatesSelector" layoutX="13.0" layoutY="332.0" mnemonicParsing="false" onAction="#selectItem" text="Western United States" />
+                        <Button fx:id="argentinaSelector" layoutX="215.0" layoutY="42.0" mnemonicParsing="false" onAction="#selectItem" text="Argentina" />
+                        <Button fx:id="brazilSelector" layoutX="215.0" layoutY="67.0" mnemonicParsing="false" onAction="#selectItem" text="Brazil" />
+                        <Button fx:id="peruSelector" layoutX="215.0" layoutY="91.0" mnemonicParsing="false" onAction="#selectItem" text="Peru" />
+                        <Button fx:id="venezuelaSelector" layoutX="215.0" layoutY="113.0" mnemonicParsing="false" onAction="#selectItem" text="Venezuela" />
+                        <Button fx:id="greatBritianAndIrelandSelector" layoutX="330.0" layoutY="42.0" mnemonicParsing="false" onAction="#selectItem" text="Great Britain and Ireland" />
+                        <Button fx:id="icelandSelector" layoutX="330.0" layoutY="67.0" mnemonicParsing="false" onAction="#selectItem" text="Iceland" />
+                        <Button fx:id="northernEuropeSelector" layoutX="330.0" layoutY="91.0" mnemonicParsing="false" onAction="#selectItem" text="Northern Europe" />
+                        <Button fx:id="ukraineSelector" layoutX="330.0" layoutY="113.0" mnemonicParsing="false" onAction="#selectItem" text="Ukraine" />
+                        <Button fx:id="westernEuropeSelector" layoutX="329.0" layoutY="138.0" mnemonicParsing="false" onAction="#selectItem" text="Western Europe" />
+                        <Button fx:id="centralAfricaSelector" layoutX="505.0" layoutY="42.0" mnemonicParsing="false" onAction="#selectItem" text="Central Africa" />
+                        <Button fx:id="eastAfricaSelector" layoutX="505.0" layoutY="67.0" mnemonicParsing="false" onAction="#selectItem" text="East Africa" />
+                        <Button fx:id="egyptSelector" layoutX="505.0" layoutY="91.0" mnemonicParsing="false" onAction="#selectItem" text="Egypt" />
+                        <Button fx:id="madagascarSelector" layoutX="505.0" layoutY="113.0" mnemonicParsing="false" onAction="#selectItem" text="Madagascar" />
+                        <Button fx:id="northAfricaSelector" layoutX="505.0" layoutY="138.0" mnemonicParsing="false" onAction="#selectItem" text="North Africa" />
+                        <Button fx:id="southAfricaSelector" layoutX="505.0" layoutY="163.0" mnemonicParsing="false" onAction="#selectItem" text="South Africa" />
+                        <Button fx:id="afghanistanSelector" layoutX="198.0" layoutY="224.0" mnemonicParsing="false" onAction="#selectItem" text="Afghanistan" />
+                        <Button fx:id="chinaSelector" layoutX="198.0" layoutY="253.0" mnemonicParsing="false" onAction="#selectItem" text="China" />
+                        <Button fx:id="indiaSelector" layoutX="198.0" layoutY="278.0" mnemonicParsing="false" onAction="#selectItem" text="India" />
+                        <Button fx:id="irkutskSelector" layoutX="198.0" layoutY="299.0" mnemonicParsing="false" onAction="#selectItem" text="Irkutsk" />
+                        <Button fx:id="japanSelector" layoutX="198.0" layoutY="320.0" mnemonicParsing="false" onAction="#selectItem" text="Japan" />
+                        <Button fx:id="kamcatkaSelector" layoutX="198.0" layoutY="345.0" mnemonicParsing="false" onAction="#selectItem" text="Kamcatka" />
+                        <Button fx:id="middleEastSelector" layoutX="295.0" layoutY="224.0" mnemonicParsing="false" onAction="#selectItem" text="Middle East" />
+                        <Button fx:id="mongoliaSelector" layoutX="295.0" layoutY="244.0" mnemonicParsing="false" onAction="#selectItem" text="Mongolia" />
+                        <Button fx:id="southeastAsiaSelector" layoutX="295.0" layoutY="266.0" mnemonicParsing="false" onAction="#selectItem" text="Southeast Asia" />
+                        <Button fx:id="siberiaSelector" layoutX="295.0" layoutY="291.0" mnemonicParsing="false" onAction="#selectItem" text="Siberia" />
+                        <Button fx:id="uralSelector" layoutX="295.0" layoutY="312.0" mnemonicParsing="false" onAction="#selectItem" text="Ural" />
+                        <Button fx:id="yakutskSelector" layoutX="295.0" layoutY="333.0" mnemonicParsing="false" onAction="#selectItem" text="Yakutsk" />
+                        <Button fx:id="easternAustraliaSelector" layoutX="670.0" layoutY="42.0" mnemonicParsing="false" onAction="#selectItem" text="Eastern Australia" />
+                        <Button fx:id="indoneasiaSelector" layoutX="670.0" layoutY="67.0" mnemonicParsing="false" onAction="#selectItem" text="Indoneaisa" />
+                        <Button fx:id="newGuineaSelector" layoutX="670.0" layoutY="91.0" mnemonicParsing="false" onAction="#selectItem" text="New Guinea" />
+                        <Button fx:id="westernAustraliaSelector" layoutX="670.0" layoutY="113.0" mnemonicParsing="false" onAction="#selectItem" text="Western Australia" />
                      </children>
                   </AnchorPane>
                   <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" scaleShape="false">
                      <children>
-                        <Button mnemonicParsing="false" text="Next" fx:id="next">
+                        <Button fx:id="next" mnemonicParsing="false" text="Next">
                            <VBox.margin>
                               <Insets bottom="10.0" top="10.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Attack" fx:id="attack">
+                        <Button fx:id="attack" mnemonicParsing="false" text="Attack">
                            <VBox.margin>
                               <Insets bottom="20.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Player1" fx:id="player1">
+                        <Button fx:id="player1" onAction="#selectItem" mnemonicParsing="false" text="Player1">
                            <VBox.margin>
                               <Insets bottom="5.0" top="10.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Player2" fx:id="player2">
+                        <Button fx:id="player2" onAction="#selectItem" mnemonicParsing="false" text="Player2">
                            <VBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Player3" fx:id="player3">
+                        <Button fx:id="player3" onAction="#selectItem" mnemonicParsing="false" text="Player3">
                            <VBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Player4" fx:id="4">
+                        <Button fx:id="player4" onAction="#selectItem" mnemonicParsing="false" text="Player4">
                            <VBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </VBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="Player5" fx:id="5">
+                        <Button fx:id="player5" onAction="#selectItem" mnemonicParsing="false" text="Player5">
                            <VBox.margin>
                               <Insets bottom="5.0" top="5.0" />
                            </VBox.margin>
                         </Button>
-                        <Button layoutX="28.0" layoutY="160.0" mnemonicParsing="false" text="Player6" fx:id="6">
+                        <Button fx:id="player6" onAction="#selectItem" layoutX="28.0" layoutY="160.0" mnemonicParsing="false" text="Player6">
                            <VBox.margin>
                               <Insets bottom="10.0" top="5.0" />
                            </VBox.margin>
                         </Button>
-                        <Button layoutX="28.0" layoutY="295.0" mnemonicParsing="false" text="AUX1" fx:id="aux1">
+                        <Button fx:id="aux1" onAction="#selectItem" layoutX="28.0" layoutY="295.0" mnemonicParsing="false" text="AUX1">
                            <VBox.margin>
                               <Insets bottom="5.0" top="15.0" />
                            </VBox.margin>
                         </Button>
-                        <Button layoutX="28.0" layoutY="325.0" mnemonicParsing="false" text="AUX2" fx:id="aux2">
+                        <Button fx:id="aux2" onAction="#selectItem" layoutX="28.0" layoutY="325.0" mnemonicParsing="false" text="AUX2">
                            <VBox.margin>
                               <Insets top="5.0" />
                            </VBox.margin>
@@ -126,7 +173,8 @@
                <children>
                   <Pane prefHeight="200.0" prefWidth="200.0" scaleShape="false">
                      <children>
-                        <ImageView fitHeight="169.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" fx:id="selectedItemView" />
+                        <ImageView fx:id="selectedItemView" fitHeight="169.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                        <Label fx:id="selectedItemLabel" layoutX="3.0" layoutY="6.0" prefHeight="17.0" prefWidth="194.0" text="selectedItem" />
                      </children>
                   </Pane>
                   <GridPane prefHeight="169.0" prefWidth="615.0" scaleShape="false">
@@ -139,12 +187,20 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
+                     <children>
+                        <Label fx:id="selectedItemInfoLabel1a" prefHeight="17.0" prefWidth="194.0" text="selectedItem" />
+                        <Label fx:id="selectedItemInfoLabel1b" prefHeight="17.0" prefWidth="194.0" text="selectedItem" GridPane.columnIndex="1" />
+                        <Label fx:id="selectedItemInfoLabel2a" prefHeight="17.0" prefWidth="194.0" text="selectedItem" GridPane.rowIndex="1" />
+                        <Label fx:id="selectedItemInfoLabel2b" prefHeight="17.0" prefWidth="194.0" text="selectedItem" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="selectedItemInfoLabel3a" prefHeight="17.0" prefWidth="194.0" text="selectedItem" GridPane.rowIndex="2" />
+                        <Label fx:id="selectedItemInfoLabel3b" prefHeight="17.0" prefWidth="194.0" text="selectedItem" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     </children>
                   </GridPane>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" scaleShape="false">
                      <children>
-                        <Button mnemonicParsing="false" text="Button" fx:id="button1" />
-                        <Button mnemonicParsing="false" text="Button" fx:id="button2" />
-                        <Button mnemonicParsing="false" text="Button" fx:id="button3" />
+                        <Button fx:id="button1" mnemonicParsing="false" text="Button" />
+                        <Button fx:id="button2" mnemonicParsing="false" text="Button" />
+                        <Button fx:id="button3" mnemonicParsing="false" text="Button" />
                      </children>
                   </VBox>
                </children>

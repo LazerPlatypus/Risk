@@ -5,7 +5,7 @@ import java.util.HashMap;
 import models.enums.CountryName;
 import models.enums.TerritoryName;
 
-public class Country {
+public class Country implements Selection{
 	//class variables
 	private CountryName countryName;
 	private HashMap<TerritoryName, Territory> territories;

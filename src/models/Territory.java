@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import models.enums.TerritoryName;
 
-public class Territory {
+public class Territory implements Selection{
 	//class variables
 	private ArrayList<Unit> occupyingUnits;
 	private Territory[] adjacentTerritories;

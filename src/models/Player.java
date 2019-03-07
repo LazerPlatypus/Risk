@@ -2,7 +2,7 @@ package models;
 
 import java.util.ArrayList;
 
-public class Player {
+public class Player implements Selection{
 	//class variables
 	private String name;
 	private ArrayList<Unit> inactiveUnits;
