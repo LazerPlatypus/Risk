@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" scaleShape="false" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.GameView">
+<VBox prefHeight="600.0" prefWidth="900.0" scaleShape="false" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.viewControllers.StartMenuViewController">
   <children>
     <MenuBar scaleShape="false" VBox.vgrow="NEVER">
       <menus>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Risk</name>
+	<name>Risk3</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -22,9 +22,24 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>src/views/FXML</name>
+			<name>src/risk/views/FXML</name>
 			<type>2</type>
-			<locationURI>PROJECT_LOC/Resources/FXML</locationURI>
+			<locationURI>copy_PROJECT_LOC1/Resources/FXML</locationURI>
+		</link>
+		<link>
+			<name>src/risk/views/Images</name>
+			<type>2</type>
+			<locationURI>copy_PROJECT_LOC1/Resources/Images</locationURI>
 		</link>
 	</linkedResources>
+	<variableList>
+		<variable>
+			<name>copy_PROJECT_LOC</name>
+			<value>$%7BPARENT-1-PROJECT_LOC%7D/Risk</value>
+		</variable>
+		<variable>
+			<name>copy_PROJECT_LOC1</name>
+			<value>$%7BPARENT-1-PROJECT_LOC%7D/repositories/Risk2</value>
+		</variable>
+	</variableList>
 </projectDescription>
