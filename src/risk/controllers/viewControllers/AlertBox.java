@@ -1,8 +1,5 @@
 package risk.controllers.viewControllers;
 
-import java.nio.channels.NonWritableChannelException;
-
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -11,40 +8,30 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
-public class ConfirmBox {
-	static boolean response = false;
-	
-	public static boolean display(String title, String message) {
+public class AlertBox {
+	public static void display(String title, String message) {
 		Stage stage = new Stage();
 		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.initStyle(StageStyle.UTILITY);
 		stage.setTitle(title);
 		stage.setMinWidth(250);
+		stage.setMinHeight(150);
 		Label label = new Label();
 		label.setText(message);
 		
-		Button yesButton = new Button("Yes");
-		Button noButton = new Button("No");
+		Button yesButton = new Button("Aww Shucks!");
 		
 		yesButton.setOnAction(EventHandler -> {
-			response = true;
 			stage.close();
 		});
 		
-		noButton.setOnAction(EventHandler -> {
-			response = false;
-			stage.close();
-		});
-		
-		HBox yesAndNo = new HBox(5);
-		yesAndNo.setAlignment(Pos.CENTER);
-		yesAndNo.getChildren().addAll(yesButton, noButton);
 		VBox layout = new VBox(10);
 		layout.setAlignment(Pos.CENTER);
-		layout.getChildren().addAll(label, yesAndNo);
+		layout.getChildren().addAll(label, yesButton);
 		Scene scene = new Scene(layout);
 		stage.setScene(scene);
 		stage.showAndWait();
-		return response;
 	}
 }

@@ -2,7 +2,10 @@ package risk.models;
 
 import java.util.ArrayList;
 
-public class Player implements Selection{
+import javafx.geometry.Side;
+import risk.controllers.viewControllers.Displayable;
+
+public class Player implements Selection, Displayable{
 	//class variables
 	private String name;
 	private ArrayList<Unit> inactiveUnits;
@@ -63,6 +66,49 @@ public class Player implements Selection{
 	
 	public void setOwnedTerritories(ArrayList<Territory> ownedTerritories) {
 		this.ownedTerritories = ownedTerritories;
+	}
+
+
+	@Override
+	public String displayName() {
+		return getName();
+	}
+
+
+	@Override
+	public String displayUnits() {
+		StringBuilder sBuilder = new StringBuilder("Active Units: ");
+		if (getActiveUnits().size()>0) {
+			sBuilder.append(getActiveUnits().size()).append(" (").append(getActiveUnits().get(0).getUnitColor().toString()).append(")");
+		} else {
+			sBuilder.append("None.");
+		}
+		sBuilder.append("\nInactive Units: ");
+		if (getInactiveUnits().size()>0) {
+			sBuilder.append(getInactiveUnits().size()).append(" (").append(getInactiveUnits().get(0).getUnitColor().toString()).append(")");
+		} else {
+			sBuilder.append("None.");
+		}
+		sBuilder.append("\nOwned Territories: ");
+		if (getOwnedTerritories().size()>0) {
+			for (Territory territory : getOwnedTerritories()) {
+				sBuilder.append(territory.getTerritoryName().toString()).append(", ");
+			}
+		} else {
+			sBuilder.append("None.");
+		}
+		sBuilder.append("\nCards: ");
+		if (getCards().size()>0) {
+			for (int i = 0; i < getCards().size(); i++) {
+				sBuilder.append(getCards().get(i).getUnitOnCard()).append(", ").append(getCards().get(i).getTerritoryOnCard());
+				if (i < getCards().size()-1) {
+					sBuilder.append(" | ");
+				}
+			}
+		} else {
+			sBuilder.append("None.");
+		}
+		return sBuilder.toString();
 	}
 	
 }

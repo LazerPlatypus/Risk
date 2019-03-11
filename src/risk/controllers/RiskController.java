@@ -5,13 +5,18 @@ package risk.controllers;
 import javafx.stage.Stage;
 import risk.controllers.viewControllers.ViewController;
 import risk.controllers.viewControllers.ConfirmBox;
+import risk.controllers.viewControllers.Displayable;
 import risk.controllers.viewControllers.View;
 import risk.models.Board;
+import risk.models.Territory;
+import risk.models.enums.CountryName;
+import risk.models.enums.TerritoryName;
 
 public class RiskController {
-	private static View currentView;
-	private static Board currentBoard;
-	private static ViewController viewController;
+	protected static View currentView;
+	protected static Board currentBoard;
+	protected static ViewController viewController;
+	protected static Territory currentTerritory;
 	
 	public static void run(Stage stage) {
 		viewController = new ViewController(stage);
@@ -26,7 +31,9 @@ public class RiskController {
 	}
 	
 	public static void resumeGame() { 
-		System.out.println("Hewwo");
+		if (currentBoard.getGameState() == 0) {
+			GameSetup.start();
+		}
 	}
 	
 	public static void startGame(String[] playerNames) {
@@ -60,4 +67,16 @@ public class RiskController {
 		//note to self, to get the program to close, use the terminate button.
 		System.out.println("Just pretend I closed.");
 	}
+	public static Displayable getCountryToDisplay(CountryName countryKey) {
+		return currentBoard.getMap().getCountries().get(countryKey);
+	}
+	public static Displayable getTerritoryToDisplay(CountryName countryKey, TerritoryName territoryKey) {
+		currentTerritory = currentBoard.getMap().getCountries().get(countryKey).getTerritories().get(territoryKey);
+		GameSetup.selectedTerritory = currentTerritory;
+		return currentTerritory;
+	}
+	public static Displayable getPlayerToDisplay(int index) {
+		return currentBoard.getPlayers()[index];
+	}
+	
 }

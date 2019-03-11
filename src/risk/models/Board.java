@@ -61,7 +61,9 @@ public class Board {
 	public Player getActivePlayer() {
 		return activePlayer;
 	}
-	
+	public int getGameState() {
+		return gameState;
+	}
 	
 	//setters
 	public void setMap(Map map) {
@@ -95,6 +97,8 @@ public class Board {
 	public void setActivePlayer(Player activePlayer) {
 		this.activePlayer = activePlayer;
 	}
-	
+	public void setGameState(int gameState) {
+		this.gameState = gameState;
+	}
 	
 }

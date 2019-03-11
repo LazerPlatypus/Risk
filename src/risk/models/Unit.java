@@ -34,4 +34,12 @@ public class Unit {
 	public void setUnitStatus(UnitStatus unitStatus) {
 		this.unitStatus = unitStatus;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("Color: ").append(getUnitColor().toString())
+		.append("\nStatus: ").append(getUnitStatus().toString());
+		return stringBuilder.toString();
+	}
 }

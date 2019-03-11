@@ -33,7 +33,12 @@ public class ViewController{
 		showStartMenu();
 	}
 	
-	
+	public void hideButton(int buttonID) {
+		gameViewController.hideButton(buttonID);
+	}
+	public void showButton(int buttonID) {
+		gameViewController.showButton(buttonID);
+	}
 	//display/switch scene logic
 	public void showStartMenu() {
 		if (startMenuViewController == null) {
@@ -57,11 +62,23 @@ public class ViewController{
 	}
 	
 	public void showGame() {
+		if (gameViewController == null) {
+			makeGameViewController();
+			System.out.println("its null");
+		}
 		stage.setTitle("Risk");
 		stage.setScene(gameViewScreenScene);
+		stage.setMaximized(true);
 		stage.show();
+		RiskController.setView(gameViewController);
 	}
 	
+	public void showDisplayable(Displayable itemToDisplay) {
+		
+	}
+	public void setPlayesToDisplay(int players) {
+		gameViewController.setNumOfPlayers(players);
+	}
 	
 	//scene creation logic
 	public void makeStartMenuViewController() {
@@ -95,9 +112,9 @@ public class ViewController{
 	public void makeGameViewController() {
 		Parent root;
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/FXML/Normal.FXML"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/risk/views/FXML/NormalScreen.fxml"));
 			root = (Parent) loader.load();
-			Scene scene = new Scene(root, 600, 400);
+			gameViewScreenScene = new Scene(root, 600, 400);
 			gameViewController = loader.getController();
 		} catch (IOException e) {
 			e.printStackTrace();

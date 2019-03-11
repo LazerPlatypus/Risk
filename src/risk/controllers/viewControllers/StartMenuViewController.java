@@ -78,6 +78,12 @@ public class StartMenuViewController implements View, Initializable{
 
 		
 	}
+
+	@Override
+	public void updateDisplay() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 

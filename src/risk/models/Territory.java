@@ -2,9 +2,10 @@ package risk.models;
 
 import java.util.ArrayList;
 
+import risk.controllers.viewControllers.Displayable;
 import risk.models.enums.TerritoryName;
 
-public class Territory implements Selection{
+public class Territory implements Selection, Displayable{
 	//class variables
 	private ArrayList<Unit> occupyingUnits;
 	private Territory[] adjacentTerritories;
@@ -43,5 +44,25 @@ public class Territory implements Selection{
 	
 	public void setTerritoryName(TerritoryName territoryName) {
 		this.territoryName = territoryName;
+	}
+
+
+	@Override
+	public String displayName() {
+		return getTerritoryName().toString();
+	}
+
+
+	@Override
+	public String displayUnits() {
+		StringBuilder sBuilder = new StringBuilder("Occupying Units: ");
+		if (getOccupyingUnits().size()>0) {
+		sBuilder.append(Integer.toString(getOccupyingUnits().size()));
+		sBuilder.append(" ").append(getOccupyingUnits().get(0).getUnitColor().toString());
+		}
+		else {
+			sBuilder.append("None.");
+		}
+		return sBuilder.toString();
 	}
 }

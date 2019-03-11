@@ -105,36 +105,36 @@ public class CreateGameViewController implements View, Initializable{
 			String[] playerNames = new String[numOfPlayers.getValue()];
 			switch (playerNames.length) {
 			case 6:
-				if (player6TextField == null || player6TextField.getText() == "") {
+				if (player6TextField.getText() == null || player6TextField.getText().trim().isEmpty()) {
 					playerNames[5] = "Player 6";
 				} else {
 					playerNames[5] = player6TextField.getText();
 				}
 			case 5:
-				if (player5TextField == null || player5TextField.getText() == "") {
+				if (player5TextField.getText() == null || player5TextField.getText().trim().isEmpty()) {
 					playerNames[4] = "Player 5";
 				} else {
 					playerNames[4] = player5TextField.getText();
 				}
 			case 4:
-				if (player4TextField == null || player4TextField.getText() == "") {
+				if (player4TextField.getText() == null || player4TextField.getText().trim().isEmpty()) {
 					playerNames[3] = "Player 4";
 				} else {
 					playerNames[3] = player4TextField.getText();
 				}
 			case 3:
-				if (player3TextField == null || player3TextField.getText() == "") {
+				if (player3TextField.getText() == null || player3TextField.getText().trim().isEmpty()) {
 					playerNames[2] = "Player 3";
 				} else {
 					playerNames[2] = player3TextField.getText();
 				}
 			case 2:
-				if (player2TextField == null || player2TextField.getText() == "") {
+				if (player2TextField.getText() == null || player2TextField.getText().trim().isEmpty()) {
 					playerNames[1] = "Player 2";
 				} else {
 					playerNames[1] = player2TextField.getText();
 				}
-				if (player1TextField == null || player1TextField.getText() == "") {
+				if (player1TextField.getText() == null || player1TextField.getText().trim().isEmpty()) {
 					playerNames[0] = "Player 1";
 				} else {
 					playerNames[0] = player1TextField.getText();
@@ -155,6 +155,11 @@ public class CreateGameViewController implements View, Initializable{
 
 	@Override
 	public void hideError() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void updateDisplay() {
 		// TODO Auto-generated method stub
 		
 	}
