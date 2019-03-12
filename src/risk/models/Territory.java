@@ -66,4 +66,10 @@ public class Territory implements Selection, Displayable,Serializable{
 		}
 		return sBuilder.toString();
 	}
+
+
+	@Override
+	public String resourceLocation() {
+		return getTerritoryName().toString().replaceAll("\\s+", "");
+	}
 }

@@ -71,5 +71,11 @@ public class Country implements Selection, Displayable, Serializable{
 		}
 		return sBuilder.toString();
 	}
+
+
+	@Override
+	public String resourceLocation() {
+		return getCountryName().toString().replaceAll("\\s+", "");
+	}
 	
 }

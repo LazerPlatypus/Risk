@@ -42,6 +42,7 @@ public class ViewController{
 	//display/switch scene logic
 	public void showStartMenu() {
 		if (startMenuViewController == null) {
+			System.out.println("startMenuViewController is null. making it.");
 			makeStartMenuViewController();
 		}
 		stage.setMaximized(false);
@@ -54,7 +55,7 @@ public class ViewController{
 	public void showCreateGameScreen() {
 		if (createGameViewController == null) {
 			makeCreateGameViewController();
-			System.out.println("its null");
+			System.out.println("createGameScreen is null. making it.");
 		}
 		stage.setMaximized(false);
 		stage.setTitle("Risk :: Create Game");
@@ -66,11 +67,11 @@ public class ViewController{
 	public void showGame() {
 		if (gameViewController == null) {
 			makeGameViewController();
-			System.out.println("its null");
+			System.out.println("gameViewController is null. making it.");
 		}
 		stage.setTitle("Risk");
 		stage.setScene(gameViewScreenScene);
-		stage.setMaximized(true);
+		stage.setMaximized(false);
 		stage.show();
 		RiskController.setView(gameViewController);
 	}
@@ -116,7 +117,7 @@ public class ViewController{
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/risk/views/FXML/NormalScreen.fxml"));
 			root = (Parent) loader.load();
-			gameViewScreenScene = new Scene(root, 600, 400);
+			gameViewScreenScene = new Scene(root, 1308, 919);
 			gameViewController = loader.getController();
 			gameViewController.setViewController(this);
 		} catch (IOException e) {

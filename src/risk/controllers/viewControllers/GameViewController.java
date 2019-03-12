@@ -1,23 +1,24 @@
 package risk.controllers.viewControllers;
 
-import java.awt.Desktop.Action;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.BlockingDeque;
 
-import com.sun.javafx.binding.BidirectionalBinding;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import risk.controllers.GameSetup;
 import risk.controllers.RiskController;
 import risk.controllers.Turn;
-import risk.models.Country;
 import risk.models.enums.CountryName;
 import risk.models.enums.TerritoryName;
 
@@ -37,87 +38,91 @@ public class GameViewController implements View, Initializable{
 	private Button australiaSelector;
 	@FXML                    
 	//Territories                                       
-	private Button alaskaSelector;
+	private ImageView alaskaSelector;
 	@FXML                       
-	private Button albertaSelector;
+	private ImageView albertaSelector;
 	@FXML                      
-	private Button centralAmericaSelector;
+	private ImageView centralAmericaSelector;
 	@FXML               
-	private Button easternUnitedStatesSelector;
+	private ImageView easternUnitedStatesSelector;
 	@FXML          
-	private Button greenlandSelector;
+	private ImageView greenlandSelector;
 	@FXML                    
-	private Button northwestTerritorySelector;
+	private ImageView northwestTerritorySelector;
 	@FXML           
-	private Button centeralCanadaSelector;
+	private ImageView ontarioSelector;
 	@FXML               
-	private Button easternCanadaSelector;
+	private ImageView quebecSelector;
 	@FXML                
-	private Button westernUnitedStatesSelector;
+	private ImageView westernUnitedStatesSelector;
 	@FXML          
-	private Button argentinaSelector;
+	private ImageView argentinaSelector;
 	@FXML                    
-	private Button brazilSelector;
+	private ImageView brazilSelector;
 	@FXML                       
-	private Button peruSelector;
+	private ImageView peruSelector;
 	@FXML                         
-	private Button venezuelaSelector;
+	private ImageView venezuelaSelector;
 	@FXML                    
-	private Button greatBritianAndIrelandSelector;
+	private ImageView greatBritianSelector;
 	@FXML       
-	private Button icelandSelector;
+	private ImageView icelandSelector;
 	@FXML                      
-	private Button northernEuropeSelector;
+	private ImageView northernEuropeSelector;
 	@FXML               
-	private Button ukraineSelector;
+	private ImageView ukraineSelector;
 	@FXML                      
-	private Button westernEuropeSelector;
-	@FXML                
-	private Button centralAfricaSelector;
-	@FXML                
-	private Button eastAfricaSelector;
+	private ImageView westernEuropeSelector;
+	@FXML                              
+	private ImageView eastAfricaSelector;
 	@FXML                   
-	private Button egyptSelector;
+	private ImageView egyptSelector;
 	@FXML                        
-	private Button madagascarSelector;
+	private ImageView madagascarSelector;
 	@FXML                   
-	private Button northAfricaSelector;
+	private ImageView northAfricaSelector;
 	@FXML                  
-	private Button southAfricaSelector;
+	private ImageView southAfricaSelector;
 	@FXML                  
-	private Button afghanistanSelector;
+	private ImageView afghanistanSelector;
 	@FXML                  
-	private Button chinaSelector;
+	private ImageView chinaSelector;
 	@FXML                        
-	private Button indiaSelector;
+	private ImageView indiaSelector;
 	@FXML                        
-	private Button irkutskSelector;
+	private ImageView irkutskSelector;
 	@FXML                      
-	private Button japanSelector;
+	private ImageView japanSelector;
 	@FXML                        
-	private Button kamcatkaSelector;
+	private ImageView kamchatkaSelector;
 	@FXML                     
-	private Button middleEastSelector;
+	private ImageView middleEastSelector;
 	@FXML                   
-	private Button mongoliaSelector;
+	private ImageView mongoliaSelector;
 	@FXML                     
-	private Button southeastAsiaSelector;
+	private ImageView siamSelector;
 	@FXML                
-	private Button siberiaSelector;
+	private ImageView siberiaSelector;
 	@FXML                      
-	private Button uralSelector;
+	private ImageView uralSelector;
 	@FXML                         
-	private Button yakutskSelector;
+	private ImageView yakutskSelector;
 	@FXML                      
-	private Button easternAustraliaSelector;
+	private ImageView easternAustraliaSelector;
 	@FXML             
-	private Button indoneasiaSelector;
+	private ImageView indonesiaSelector;
 	@FXML                   
-	private Button newGuineaSelector;
+	private ImageView newGuineaSelector;
 	@FXML                    
-	private Button westernAustraliaSelector;
-	@FXML             
+	private ImageView westernAustraliaSelector;
+	@FXML  
+	private ImageView congoSelector;
+	@FXML
+	private ImageView southernEuropeSelector;
+	@FXML
+	private ImageView scandinaviaSelector;
 	//player buttons                                    
+	@FXML
 	private Button player1;
 	@FXML                              
 	private Button player2;
@@ -164,7 +169,11 @@ public class GameViewController implements View, Initializable{
 	@FXML                                   
 	private Menu edit;
 	@FXML                                   
-	public Menu help;
+	private Menu help;
+	@FXML
+	private AnchorPane anchorPane;
+	
+	
 	private Displayable currentItemToDisplay;
 	private ViewController viewController;
 	public void setNumOfPlayers(int players) {
@@ -224,8 +233,8 @@ public class GameViewController implements View, Initializable{
 	}
 	
 	@FXML
-	private void selectTerritory(ActionEvent actionEvent) {
-		Object source = actionEvent.getSource();
+	private void selectTerritory(MouseEvent mouseEvent) {
+		Object source = mouseEvent.getSource();
 		int sourceHashCode = source.hashCode();
 		CountryName countryKey = null;
 		TerritoryName territoryKey = null;
@@ -253,13 +262,13 @@ public class GameViewController implements View, Initializable{
 			countryKey = CountryName.NORTH_AMERICA;
 			territoryKey = TerritoryName.NORTHWEST_TERRITORY;
 		}
-		else if (sourceHashCode==centeralCanadaSelector.hashCode()) {
+		else if (sourceHashCode==ontarioSelector.hashCode()) {
 			countryKey = CountryName.NORTH_AMERICA;
-			territoryKey = TerritoryName.CENTERAL_CANADA;
+			territoryKey = TerritoryName.ONTARIO;
 		}
-		else if (sourceHashCode==easternCanadaSelector.hashCode()) {
+		else if (sourceHashCode==quebecSelector.hashCode()) {
 			countryKey = CountryName.NORTH_AMERICA;
-			territoryKey = TerritoryName.EASTERN_CANADA;
+			territoryKey = TerritoryName.QUEBEC;
 		}
 		else if (sourceHashCode==westernUnitedStatesSelector.hashCode()) {
 			countryKey = CountryName.NORTH_AMERICA;
@@ -281,9 +290,9 @@ public class GameViewController implements View, Initializable{
 			countryKey = CountryName.SOUTH_AMERICA;
 			territoryKey = TerritoryName.VENEZUELA;
 		}
-		else if (sourceHashCode==greatBritianAndIrelandSelector.hashCode()) {
+		else if (sourceHashCode==greatBritianSelector.hashCode()) {
 			countryKey = CountryName.EUROPE;
-			territoryKey = TerritoryName.GREAT_BRITAIN_AND_IRELAND;
+			territoryKey = TerritoryName.GREAT_BRITAIN;
 		}
 		else if (sourceHashCode==icelandSelector.hashCode()) {
 			countryKey = CountryName.EUROPE;
@@ -301,9 +310,9 @@ public class GameViewController implements View, Initializable{
 			countryKey = CountryName.EUROPE;
 			territoryKey = TerritoryName.WESTERN_EUROPE;
 		}
-		else if (sourceHashCode==centralAfricaSelector.hashCode()) {
+		else if (sourceHashCode==congoSelector.hashCode()) {
 			countryKey = CountryName.AFRICA;
-			territoryKey = TerritoryName.CENTRAL_AFRICA;
+			territoryKey = TerritoryName.CONGO;
 		}
 		else if (sourceHashCode==eastAfricaSelector.hashCode()) {
 			countryKey = CountryName.AFRICA;
@@ -345,7 +354,7 @@ public class GameViewController implements View, Initializable{
 			countryKey = CountryName.ASIA;
 			territoryKey = TerritoryName.JAPAN;
 		}
-		else if (sourceHashCode==kamcatkaSelector.hashCode()) {
+		else if (sourceHashCode==kamchatkaSelector.hashCode()) {
 			countryKey = CountryName.ASIA;
 			territoryKey = TerritoryName.KAMCATKA;
 		}
@@ -357,9 +366,9 @@ public class GameViewController implements View, Initializable{
 			countryKey = CountryName.ASIA;
 			territoryKey = TerritoryName.MONGOLIA;
 		}
-		else if (sourceHashCode==southeastAsiaSelector.hashCode()) {
+		else if (sourceHashCode==siamSelector.hashCode()) {
 			countryKey = CountryName.ASIA;
-			territoryKey = TerritoryName.SOUTHEAST_ASIA;
+			territoryKey = TerritoryName.SIAM;
 		}
 		else if (sourceHashCode==siberiaSelector.hashCode()) {
 			countryKey = CountryName.ASIA;
@@ -377,7 +386,7 @@ public class GameViewController implements View, Initializable{
 			countryKey = CountryName.AUSTRALIA;
 			territoryKey = TerritoryName.EASTERN_AUSTRALIA;
 		}
-		else if (sourceHashCode==indoneasiaSelector.hashCode()) {
+		else if (sourceHashCode==indonesiaSelector.hashCode()) {
 			countryKey = CountryName.AUSTRALIA;
 			territoryKey = TerritoryName.INDONEASIA;
 		}
@@ -389,13 +398,25 @@ public class GameViewController implements View, Initializable{
 			countryKey = CountryName.AUSTRALIA;
 			territoryKey = TerritoryName.WESTERN_AUSTRALIA;
 		}
-		currentItemToDisplay = RiskController.getTerritoryToDisplay(countryKey,territoryKey);
-		updateContextScreen();
+		else if (sourceHashCode==scandinaviaSelector.hashCode()) {
+			countryKey = CountryName.EUROPE;
+			territoryKey = TerritoryName.SCANDINAVIA;
+		}
+		else if (sourceHashCode==southernEuropeSelector.hashCode()) {
+			countryKey=CountryName.EUROPE;
+			territoryKey = TerritoryName.SOUTHERN_EUROPE;
+		}
+		if (countryKey != null && territoryKey != null) {
+			currentItemToDisplay = RiskController.getTerritoryToDisplay(countryKey,territoryKey);
+			updateContextScreen();
+		}
 	}
 	
 	public void updateContextScreen() {
 		contentNameLabel.setText(currentItemToDisplay.displayName());
 		contentInfoLabel.setText(currentItemToDisplay.displayUnits());
+		System.out.println("/risk/views/Images/"+currentItemToDisplay.resourceLocation()+".png");
+		selectedItemView.setImage(new Image(getClass().getResourceAsStream("/risk/views/Images/"+currentItemToDisplay.resourceLocation()+".png")));
 	}
 	
 	@FXML 
@@ -493,6 +514,7 @@ public class GameViewController implements View, Initializable{
 	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		setImageStyles();
 		player3.managedProperty().bind(player3.visibleProperty());
 		player4.managedProperty().bind(player4.visibleProperty());
 		player5.managedProperty().bind(player5.visibleProperty());
@@ -504,6 +526,9 @@ public class GameViewController implements View, Initializable{
 		button1.managedProperty().bind(button1.visibleProperty());
 		button2.managedProperty().bind(button2.visibleProperty());
 		attack.managedProperty().bind(attack.visibleProperty());
+		mapView.setPreserveRatio(true);
+		Image mapImage = new Image("/risk/views/Images/risk-1-original.jpg");
+		mapView.setImage(mapImage);
 	}
 	@Override
 	public void updateDisplay() {
@@ -530,6 +555,60 @@ public class GameViewController implements View, Initializable{
 	
 	@FXML
 	private void next(ActionEvent actionEvent) {
+		
+	}
+	
+	private void turnOffPickOnBoundsFor(Node n) {
+	    n.setPickOnBounds(false);
+	    if (n instanceof Parent) {
+	      for (Node c: ((Parent) n).getChildrenUnmodifiable()) {
+	        turnOffPickOnBoundsFor(c);
+	      }
+	    }
+	  }
+	private void setImageStyles() {
+		turnOffPickOnBoundsFor(afghanistanSelector);
+		turnOffPickOnBoundsFor(alaskaSelector);
+		turnOffPickOnBoundsFor(albertaSelector);
+		turnOffPickOnBoundsFor(argentinaSelector);
+		turnOffPickOnBoundsFor(brazilSelector);
+		turnOffPickOnBoundsFor(centralAmericaSelector);
+		turnOffPickOnBoundsFor(chinaSelector);
+		turnOffPickOnBoundsFor(congoSelector);
+		turnOffPickOnBoundsFor(eastAfricaSelector);
+		turnOffPickOnBoundsFor(easternAustraliaSelector);
+		turnOffPickOnBoundsFor(easternUnitedStatesSelector);
+		turnOffPickOnBoundsFor(egyptSelector);
+		turnOffPickOnBoundsFor(greatBritianSelector);
+		turnOffPickOnBoundsFor(greenlandSelector);
+		turnOffPickOnBoundsFor(icelandSelector);
+		turnOffPickOnBoundsFor(indiaSelector);
+		turnOffPickOnBoundsFor(indonesiaSelector);
+		turnOffPickOnBoundsFor(irkutskSelector);
+		turnOffPickOnBoundsFor(japanSelector);
+		turnOffPickOnBoundsFor(kamchatkaSelector);
+		turnOffPickOnBoundsFor(madagascarSelector);
+		turnOffPickOnBoundsFor(middleEastSelector);
+		turnOffPickOnBoundsFor(mongoliaSelector);
+		turnOffPickOnBoundsFor(newGuineaSelector);
+		turnOffPickOnBoundsFor(northAfricaSelector);
+		turnOffPickOnBoundsFor(northernEuropeSelector);
+		turnOffPickOnBoundsFor(northwestTerritorySelector);
+		turnOffPickOnBoundsFor(ontarioSelector);
+		turnOffPickOnBoundsFor(peruSelector);
+		turnOffPickOnBoundsFor(quebecSelector);
+		turnOffPickOnBoundsFor(scandinaviaSelector);
+		turnOffPickOnBoundsFor(siamSelector);
+		turnOffPickOnBoundsFor(siberiaSelector);
+		turnOffPickOnBoundsFor(southAfricaSelector);
+		turnOffPickOnBoundsFor(southernEuropeSelector);
+		turnOffPickOnBoundsFor(ukraineSelector);
+		turnOffPickOnBoundsFor(uralSelector);
+		turnOffPickOnBoundsFor(venezuelaSelector);
+		turnOffPickOnBoundsFor(westernAustraliaSelector);
+		turnOffPickOnBoundsFor(westernEuropeSelector);
+		turnOffPickOnBoundsFor(westernUnitedStatesSelector);
+		turnOffPickOnBoundsFor(yakutskSelector);
 		
 	}
 	

@@ -42,8 +42,8 @@ public class BoardController {
 				territories.put(TerritoryName.EASTERN_UNITED_STATES, new Territory(new ArrayList<Unit>(), TerritoryName.EASTERN_UNITED_STATES));
 				territories.put(TerritoryName.GREENLAND, new Territory(new ArrayList<Unit>(), TerritoryName.GREENLAND));
 				territories.put(TerritoryName.NORTHWEST_TERRITORY, new Territory(new ArrayList<Unit>(), TerritoryName.NORTHWEST_TERRITORY));
-				territories.put(TerritoryName.CENTERAL_CANADA, new Territory(new ArrayList<Unit>(), TerritoryName.CENTERAL_CANADA));
-				territories.put(TerritoryName.EASTERN_CANADA, new Territory(new ArrayList<Unit>(), TerritoryName.EASTERN_CANADA));
+				territories.put(TerritoryName.ONTARIO, new Territory(new ArrayList<Unit>(), TerritoryName.ONTARIO));
+				territories.put(TerritoryName.QUEBEC, new Territory(new ArrayList<Unit>(), TerritoryName.QUEBEC));
 				territories.put(TerritoryName.WESTERN_UNITED_STATES, new Territory(new ArrayList<Unit>(), TerritoryName.WESTERN_UNITED_STATES));
 				break;
 			case 1:
@@ -53,14 +53,16 @@ public class BoardController {
 				territories.put(TerritoryName.VENEZUELA, new Territory(new ArrayList<Unit>(), TerritoryName.VENEZUELA));
 				break;
 			case 2:
-				territories.put(TerritoryName.GREAT_BRITAIN_AND_IRELAND, new Territory(new ArrayList<Unit>(), TerritoryName.GREAT_BRITAIN_AND_IRELAND));
+				territories.put(TerritoryName.GREAT_BRITAIN, new Territory(new ArrayList<Unit>(), TerritoryName.GREAT_BRITAIN));
 				territories.put(TerritoryName.ICELAND, new Territory(new ArrayList<Unit>(), TerritoryName.ICELAND));
 				territories.put(TerritoryName.NORTHERN_EUROPE, new Territory(new ArrayList<Unit>(), TerritoryName.NORTHERN_EUROPE));
 				territories.put(TerritoryName.UKRAINE, new Territory(new ArrayList<Unit>(), TerritoryName.UKRAINE));
 				territories.put(TerritoryName.WESTERN_EUROPE, new Territory(new ArrayList<Unit>(), TerritoryName.WESTERN_EUROPE));
+				territories.put(TerritoryName.SOUTHERN_EUROPE, new Territory(new ArrayList<Unit>(), TerritoryName.SOUTHERN_EUROPE));
+				territories.put(TerritoryName.SCANDINAVIA, new Territory(new ArrayList<Unit>(), TerritoryName.SCANDINAVIA));
 				break;
 			case 3:
-				territories.put(TerritoryName.CENTRAL_AFRICA, new Territory(new ArrayList<Unit>(), TerritoryName.CENTRAL_AFRICA));
+				territories.put(TerritoryName.CONGO, new Territory(new ArrayList<Unit>(), TerritoryName.CONGO));
 				territories.put(TerritoryName.EAST_AFRICA, new Territory(new ArrayList<Unit>(), TerritoryName.EAST_AFRICA));
 				territories.put(TerritoryName.EGYPT, new Territory(new ArrayList<Unit>(), TerritoryName.EGYPT));
 				territories.put(TerritoryName.MADAGASCAR, new Territory(new ArrayList<Unit>(), TerritoryName.MADAGASCAR));
@@ -76,7 +78,7 @@ public class BoardController {
 				territories.put(TerritoryName.KAMCATKA, new Territory(new ArrayList<Unit>(), TerritoryName.KAMCATKA));
 				territories.put(TerritoryName.MIDDLE_EAST, new Territory(new ArrayList<Unit>(), TerritoryName.MIDDLE_EAST));
 				territories.put(TerritoryName.MONGOLIA, new Territory(new ArrayList<Unit>(), TerritoryName.MONGOLIA));
-				territories.put(TerritoryName.SOUTHEAST_ASIA, new Territory(new ArrayList<Unit>(), TerritoryName.SOUTHEAST_ASIA));
+				territories.put(TerritoryName.SIAM, new Territory(new ArrayList<Unit>(), TerritoryName.SIAM));
 				territories.put(TerritoryName.SIBERIA, new Territory(new ArrayList<Unit>(), TerritoryName.SIBERIA));
 				territories.put(TerritoryName.URAL, new Territory(new ArrayList<Unit>(), TerritoryName.URAL));
 				territories.put(TerritoryName.YAKUTSK, new Territory(new ArrayList<Unit>(), TerritoryName.YAKUTSK));

@@ -163,7 +163,7 @@ public class Turn extends GameSetup{
 	
 	public static void endTurn() {
 		if (getsCard) {
-			currentBoard.getActivePlayer().getCards().add(new Card(UnitName.CALVERY, TerritoryName.GREAT_BRITAIN_AND_IRELAND));
+			currentBoard.getActivePlayer().getCards().add(new Card(UnitName.CALVERY, TerritoryName.GREAT_BRITAIN));
 		}
 		getsCard = false;
 		turnCount++;

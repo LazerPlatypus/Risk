@@ -111,5 +111,20 @@ public class Player implements Selection, Displayable, Serializable{
 		}
 		return sBuilder.toString();
 	}
+
+
+	@Override
+	public String resourceLocation() {
+		String resouceLocation = "";
+		if (getActiveUnits() != null && getActiveUnits().size()>0) {
+			resouceLocation = getActiveUnits().get(0).getUnitColor().toString()+"Player";
+		}
+		else if (getInactiveUnits() != null && getInactiveUnits().size()>0) {
+			resouceLocation = getInactiveUnits().get(0).getUnitColor().toString()+"Player";
+		} else {
+			resouceLocation = "Player";
+		}
+		return resouceLocation;
+	}
 	
 }

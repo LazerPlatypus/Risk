@@ -28,7 +28,7 @@ public class GameSetup extends RiskController{
 	
 	public static void placeUnit() {
 		if (selectedTerritory != null) {
-			if (selectedTerritory.getOccupyingUnits().size()<1 || turnCount>=39 && selectedTerritory.getOccupyingUnits().get(0).getUnitColor() == currentBoard.getActivePlayer().getActiveUnits().get(0).getUnitColor()) {
+			if (selectedTerritory.getOccupyingUnits().size()<1 || turnCount>=41 && selectedTerritory.getOccupyingUnits().get(0).getUnitColor() == currentBoard.getActivePlayer().getActiveUnits().get(0).getUnitColor()) {
 			Player currentPlayer = currentBoard.getActivePlayer();
 			ArrayList<Unit> currentPlayerActiveUnits = currentPlayer.getActiveUnits();
 			if (currentPlayer.getInactiveUnits().size()>0) {
