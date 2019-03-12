@@ -1,5 +1,9 @@
 package risk.models.enums;
 
+import com.sun.glass.ui.TouchInputSupport;
+
+import risk.controllers.Tools;
+
 public enum TerritoryName {
 	ALASKA,
 	ALBERTA,
@@ -41,4 +45,10 @@ public enum TerritoryName {
 	INDONEASIA,
 	NEW_GUINEA,
 	WESTERN_AUSTRALIA;
+	
+	@Override
+	public String toString() {
+		String enumToString = this.name();
+		return Tools.replaceUnderscoreAndCapitilizeEachWord(enumToString);
+	}
 }

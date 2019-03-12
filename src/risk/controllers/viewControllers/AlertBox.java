@@ -21,7 +21,7 @@ public class AlertBox {
 		Label label = new Label();
 		label.setText(message);
 		
-		Button yesButton = new Button("Aww Shucks!");
+		Button yesButton = new Button("OK");
 		
 		yesButton.setOnAction(EventHandler -> {
 			stage.close();

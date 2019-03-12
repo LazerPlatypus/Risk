@@ -13,6 +13,8 @@ package risk.application;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import risk.controllers.RiskController;
+import risk.controllers.viewControllers.NumberOptionBox;
+import risk.controllers.viewControllers.NumberSliderBox;
 import risk.controllers.viewControllers.ViewController;
 
 public class Main extends Application{

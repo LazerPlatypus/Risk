@@ -488,7 +488,7 @@ public class GameViewController implements View, Initializable{
 			Turn.placeUnit();
 		}
 		else if (sourceHashCode == aux3.hashCode()) {
-			
+			Turn.startFreeMove();
 		}
 	}
 	@Override

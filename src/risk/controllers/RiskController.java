@@ -49,6 +49,9 @@ public class RiskController {
 		RiskController.currentBoard = BoardController.loadBoard();
 		if (currentBoard != null) {
 			Error("Game loaded successfully");
+			viewController.makeStartMenuViewController();
+			viewController.makeCreateGameViewController();
+			viewController.makeGameViewController();
 			resumeGame();			
 		} else {
 			Error("No game selected");
