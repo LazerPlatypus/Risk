@@ -44,6 +44,7 @@ public class ViewController{
 		if (startMenuViewController == null) {
 			makeStartMenuViewController();
 		}
+		stage.setMaximized(false);
 		stage.setTitle("Risk :: Start Menu");
 		stage.setScene(startMenuScreenScene);
 		stage.show();
@@ -55,6 +56,7 @@ public class ViewController{
 			makeCreateGameViewController();
 			System.out.println("its null");
 		}
+		stage.setMaximized(false);
 		stage.setTitle("Risk :: Create Game");
 		stage.setScene(createGameScreenScene);
 		stage.show();
@@ -116,6 +118,7 @@ public class ViewController{
 			root = (Parent) loader.load();
 			gameViewScreenScene = new Scene(root, 600, 400);
 			gameViewController = loader.getController();
+			gameViewController.setViewController(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

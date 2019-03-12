@@ -1,10 +1,11 @@
 package risk.models;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 import risk.models.enums.CountryName;
 
-public class Map {
+public class Map implements Serializable{
 	//class variables
 	private HashMap<CountryName, Country> countries;
 

@@ -31,8 +31,11 @@ public class RiskController {
 	}
 	
 	public static void resumeGame() { 
-		if (currentBoard.getGameState() == 0) {
+		if (currentBoard.getGameState()[0] == 0) {
 			GameSetup.start();
+		}
+		else if (currentBoard.getGameState()[0] == 1) {
+			Turn.start();
 		}
 	}
 	
@@ -44,8 +47,12 @@ public class RiskController {
 	public static void loadGame() {
 		currentView.hideError();
 		RiskController.currentBoard = BoardController.loadBoard();
-		Error("Game loaded successfully");
-		resumeGame();
+		if (currentBoard != null) {
+			Error("Game loaded successfully");
+			resumeGame();			
+		} else {
+			Error("No game selected");
+		}
 	}
 	
 	public static void Error(String error) {

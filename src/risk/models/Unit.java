@@ -1,9 +1,11 @@
 package risk.models;
 
+import java.io.Serializable;
+
 import risk.models.enums.UnitColor;
 import risk.models.enums.UnitStatus;
 
-public class Unit {
+public class Unit implements Serializable{
 	//class variables
 	private UnitColor unitColor;
 	private UnitStatus unitStatus;

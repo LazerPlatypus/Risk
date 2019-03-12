@@ -1,11 +1,12 @@
 package risk.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import risk.controllers.viewControllers.Displayable;
 import risk.models.enums.TerritoryName;
 
-public class Territory implements Selection, Displayable{
+public class Territory implements Selection, Displayable,Serializable{
 	//class variables
 	private ArrayList<Unit> occupyingUnits;
 	private Territory[] adjacentTerritories;

@@ -1,9 +1,11 @@
 package risk.models;
 
+import java.io.Serializable;
+
 import risk.models.enums.TerritoryName;
 import risk.models.enums.UnitName;
 
-public class Card {
+public class Card implements Serializable{
 	//class variables
 	private UnitName unitOnCard;
 	private TerritoryName territoryOnCard;

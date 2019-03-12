@@ -19,7 +19,7 @@ public class GameSetup extends RiskController{
 	public static void start() {
 		viewController.showGame();
 		viewController.setPlayesToDisplay(currentBoard.getPlayers().length);
-		currentBoard.setActivePlayer(currentBoard.getPlayerOrder()[0]);
+		currentBoard.setActivePlayer(currentBoard.getPlayerOrder()[currentBoard.getGameState()[1]]);
 		currentView.showError("It is "+currentBoard.getActivePlayer().getName()+"'s Turn!\nPlace a unit by clicking on a territory, then pressing AUX1");
 		viewController.hideButton(7);
 	}
@@ -28,7 +28,7 @@ public class GameSetup extends RiskController{
 	
 	public static void placeUnit() {
 		if (selectedTerritory != null) {
-			if (selectedTerritory.getOccupyingUnits().size()<1 || turnCount>40 && selectedTerritory.getOccupyingUnits().get(0).getUnitColor() == currentBoard.getActivePlayer().getActiveUnits().get(0).getUnitColor()) {
+			if (selectedTerritory.getOccupyingUnits().size()<1 || turnCount>39 && selectedTerritory.getOccupyingUnits().get(0).getUnitColor() == currentBoard.getActivePlayer().getActiveUnits().get(0).getUnitColor()) {
 			Player currentPlayer = currentBoard.getActivePlayer();
 			ArrayList<Unit> currentPlayerActiveUnits = currentPlayer.getActiveUnits();
 			if (currentPlayer.getInactiveUnits().size()>0) {
@@ -47,7 +47,8 @@ public class GameSetup extends RiskController{
 			}
 			currentView.updateDisplay();
 			turnCount++;
-			currentBoard.setActivePlayer(currentBoard.getPlayerOrder()[turnCount%currentBoard.getPlayerOrder().length]);
+			currentBoard.setGameState(new int[] {1,turnCount%currentBoard.getPlayerOrder().length});
+			currentBoard.setActivePlayer(currentBoard.getPlayerOrder()[currentBoard.getGameState()[1]]);
 			currentView.showError("It is "+currentBoard.getActivePlayer().getName()+"'s Turn!\nPlace a unit by clicking on a territory, then pressing AUX1");
 			} else {
 				System.out.println("Displaying error");

@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.BlockingDeque;
 
+import com.sun.javafx.binding.BidirectionalBinding;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -129,15 +131,15 @@ public class GameViewController implements View, Initializable{
 	private Button player6;
 	//aux buttons                                       
 	@FXML                              
-	private Button aux1;
-	@FXML                                 
-	private Button aux2;
-	@FXML                                 
 	private Button button1;
-	@FXML                              
+	@FXML                                 
 	private Button button2;
+	@FXML                                 
+	private Button aux1;
 	@FXML                              
-	private Button button3;
+	private Button aux2;
+	@FXML                              
+	private Button aux3;
 	//turn buttons                                      
 	@FXML                              
 	private Button next;
@@ -164,6 +166,7 @@ public class GameViewController implements View, Initializable{
 	@FXML                                   
 	public Menu help;
 	private Displayable currentItemToDisplay;
+	private ViewController viewController;
 	public void setNumOfPlayers(int players) {
 		switch (players) {
 		case 2:
@@ -189,6 +192,9 @@ public class GameViewController implements View, Initializable{
 	public void hideError() {
 		instructionsLabel.setVisible(false);
 		
+	}
+	public void setViewController(ViewController viewController) {
+		this.viewController = viewController;
 	}
 	@FXML
 	private void selectCountry(ActionEvent actionEvent) {
@@ -436,6 +442,13 @@ public class GameViewController implements View, Initializable{
 		break;
 		case 7: aux2.setVisible(false);
 		break;
+		case 8: aux3.setVisible(false);
+		break;
+		case 9: button1.setVisible(false);
+		break;
+		case 10: button2.setVisible(false);
+		break;
+		case 11: attack.setVisible(false);
 		}
 	}
 	public void showButton(int buttonID) {
@@ -455,6 +468,14 @@ public class GameViewController implements View, Initializable{
 		case 6: player6.setVisible(true);
 		break;
 		case 7: aux2.setVisible(true);
+		break;
+		case 8: aux3.setVisible(true);
+		break;
+		case 9: button1.setVisible(true);
+		break;
+		case 10: button2.setVisible(true);
+		break;
+		case 11: attack.setVisible(true);
 		}
 	}
 	@FXML
@@ -466,6 +487,9 @@ public class GameViewController implements View, Initializable{
 		else if (sourceHashCode == aux2.hashCode()) {
 			Turn.placeUnit();
 		}
+		else if (sourceHashCode == aux3.hashCode()) {
+			
+		}
 	}
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -476,12 +500,28 @@ public class GameViewController implements View, Initializable{
 		instructionsLabel.managedProperty().bind(instructionsLabel.visibleProperty());
 		aux1.managedProperty().bind(aux1.visibleProperty());
 		aux2.managedProperty().bind(aux2.visibleProperty());
+		aux3.managedProperty().bind(aux3.visibleProperty());
+		button1.managedProperty().bind(button1.visibleProperty());
+		button2.managedProperty().bind(button2.visibleProperty());
+		attack.managedProperty().bind(attack.visibleProperty());
 	}
 	@Override
 	public void updateDisplay() {
 		updateContextScreen();
 		
 	}
+	
+	@FXML
+	private void doButtonAction(ActionEvent actionEvent) {
+		int sourceHashCode = actionEvent.getSource().hashCode();
+		if (sourceHashCode == button1.hashCode()) {
+			viewController.showStartMenu();
+		}
+		else if (sourceHashCode == button2.hashCode()) {
+			
+		}
+	}
+	
 	
 	@FXML
 	private void attack(ActionEvent actionEvent) {

@@ -1,5 +1,6 @@
 package risk.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -9,7 +10,7 @@ import risk.models.enums.CountryName;
 import risk.models.enums.TerritoryName;
 import risk.models.enums.UnitColor;
 
-public class Country implements Selection, Displayable{
+public class Country implements Selection, Displayable, Serializable{
 	//class variables
 	private CountryName countryName;
 	private HashMap<TerritoryName, Territory> territories;

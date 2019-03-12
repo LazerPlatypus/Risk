@@ -117,7 +117,7 @@ public class BoardController {
 			playerOrder[i] = players[i];
 		}
 		Player activePlayer = playerOrder[0];
-		return new Board(map, undrawnCards, drawnCards, attackDice, defenceDice, players, playerOrder, activePlayer, 0);
+		return new Board(map, undrawnCards, drawnCards, attackDice, defenceDice, players, playerOrder, activePlayer, new int[] {0,0});
 	}
 	
 	public static Board loadBoard() {
@@ -176,6 +176,7 @@ public class BoardController {
 				RiskController.Error("Game saved succesfully");
 			} catch (IOException ioe) {
 				RiskController.Error("Something went terribly wrong.");
+				ioe.printStackTrace();
 			} finally {
 				if (objectOut != null) {
 					try {

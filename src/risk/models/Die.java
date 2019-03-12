@@ -1,10 +1,11 @@
 package risk.models;
 
+import java.io.Serializable;
 import java.util.Random;
 
 import risk.models.enums.DieType;
 
-public class Die {
+public class Die implements Serializable{
 	//class variables
 	private DieType dieType;
 	private Random rng;

@@ -36,6 +36,7 @@ public class StartMenuViewController implements View, Initializable{
 	public StartMenuViewController() {
 	}
 	
+	
 	public void setViewController(ViewController viewController) {
 		this.viewController = viewController;
 	}

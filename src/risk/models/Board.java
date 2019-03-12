@@ -1,10 +1,12 @@
 package risk.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Board {
+public class Board implements Serializable{
+	
 	//class variables
-	private int gameState;
+	private int[] gameState;
 	private Map map;
 	private ArrayList<Card> undrawnCards;
 	private ArrayList<Card> drawnCards;
@@ -16,7 +18,7 @@ public class Board {
 	
 	//constructors
 	public Board(Map map, ArrayList<Card> undrawnCards, ArrayList<Card> drawnCards, Die[] attackDice, Die[] defenceDice,
-			Player[] players, Player[] playerOrder, Player activePlayer, int gameState) {
+			Player[] players, Player[] playerOrder, Player activePlayer, int[] gameState) {
 		this.map = map;
 		this.undrawnCards = undrawnCards;
 		this.drawnCards = drawnCards;
@@ -61,7 +63,7 @@ public class Board {
 	public Player getActivePlayer() {
 		return activePlayer;
 	}
-	public int getGameState() {
+	public int[] getGameState() {
 		return gameState;
 	}
 	
@@ -97,7 +99,7 @@ public class Board {
 	public void setActivePlayer(Player activePlayer) {
 		this.activePlayer = activePlayer;
 	}
-	public void setGameState(int gameState) {
+	public void setGameState(int[] gameState) {
 		this.gameState = gameState;
 	}
 	

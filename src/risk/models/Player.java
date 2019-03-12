@@ -1,11 +1,12 @@
 package risk.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javafx.geometry.Side;
 import risk.controllers.viewControllers.Displayable;
 
-public class Player implements Selection, Displayable{
+public class Player implements Selection, Displayable, Serializable{
 	//class variables
 	private String name;
 	private ArrayList<Unit> inactiveUnits;

@@ -16,7 +16,7 @@ import risk.models.enums.UnitColor;
 public class Turn extends GameSetup{
 	
 	private static boolean isAttackPhase = false;
-	
+	private static boolean isFreeMovePhase = false;
 	public static void start() {
 		System.out.println("Game setup finished!");
 		upKeep();
@@ -32,7 +32,12 @@ public class Turn extends GameSetup{
 		AlertBox.display("Attack", "You've entered the attack phase");
 		viewController.hideButton(7);
 		isAttackPhase = true;
-		
+		viewController.showButton(11);
+	}
+	public static void freeMovePhase() {
+		AlertBox.display("Free Move", "You've entered the free move phase");
+		viewController.hideButton(11);
+		isFreeMovePhase = true;
 	}
 	public static Territory territoryToAttackFrom;
 	public static void startAttack() {
@@ -60,6 +65,9 @@ public class Turn extends GameSetup{
 		}
 	}
 	
+	public static void startFreeMove() {
+	}
+	
 	public static void attack(Territory territoryToAttackFrom, Territory territoryToAttack) {
 		while (territoryToAttackFrom.getOccupyingUnits().size()>1 && territoryToAttack.getOccupyingUnits().size()>0) {
 			int numOfUnitsToAttackWith = NumberOptionBox.display("Attack", "How many units do you want to attack with?", territoryToAttackFrom.getOccupyingUnits().size());
@@ -84,6 +92,7 @@ public class Turn extends GameSetup{
 		}
 		isAttackPhase = false;
 		territoryToAttackFrom = null;
+		freeMovePhase();
 	}
 	
 	public static void freeMove() {

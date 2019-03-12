@@ -1,5 +1,7 @@
 package risk.models;
 
-public interface Selection {
+import java.io.Serializable;
+
+public interface Selection{
 
 }
