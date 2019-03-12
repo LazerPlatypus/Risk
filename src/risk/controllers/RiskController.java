@@ -72,10 +72,7 @@ public class RiskController {
 			saveGame();
 		}
 		
-		//sets the passes the stage back to game galore
-		//gameGalore.run(stage);
-		//note to self, to get the program to close, use the terminate button.
-		System.out.println("Just pretend I closed.");
+		menu.Main.showMenu();
 	}
 	public static Displayable getCountryToDisplay(CountryName countryKey) {
 		return currentBoard.getMap().getCountries().get(countryKey);

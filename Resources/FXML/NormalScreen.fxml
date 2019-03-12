@@ -28,7 +28,10 @@
                            <image>
                               <Image url="@../Images/risk-1-original.jpg" />
                            </image></ImageView>
-                        <Label fx:id="instructionsLabel" layoutX="143.0" layoutY="14.0" prefHeight="51.0" prefWidth="515.0" text="Label" />
+                        <Label fx:id="instructionsLabel" alignment="TOP_LEFT" layoutX="1065.0" layoutY="104.0" prefHeight="403.0" prefWidth="130.0" wrapText="true">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font></Label>
                         <ImageView fx:id="alaskaSelector" fitHeight="124.0" fitWidth="133.0" layoutX="-7.0" layoutY="49.0" onMouseClicked="#selectTerritory" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/Alaska.png" />
@@ -199,7 +202,7 @@
                               <Image url="@../Images/WesternEurope.png" />
                            </image>
                         </ImageView>
-                        <ImageView fx:id="southernEuropeSelector" fitHeight="114.0" fitWidth="103.0" layoutX="480.0" layoutY="253.0" onMouseClicked="#selectTerritory" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="southernEuropeSelector" fitHeight="114.0" fitWidth="103.0" layoutX="480.0" layoutY="254.0" onMouseClicked="#selectTerritory" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../Images/SouthernEurope.png" />
                            </image>
@@ -286,11 +289,6 @@
                         <Button fx:id="button1" layoutX="28.0" layoutY="295.0" mnemonicParsing="false" onAction="#doButtonAction" text="Show Menu">
                            <VBox.margin>
                               <Insets bottom="5.0" top="15.0" />
-                           </VBox.margin>
-                        </Button>
-                        <Button fx:id="button2" layoutX="28.0" layoutY="325.0" mnemonicParsing="false" onAction="#doButtonAction" text="TEMP">
-                           <VBox.margin>
-                              <Insets top="5.0" />
                            </VBox.margin>
                         </Button>
                      </children>

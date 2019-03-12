@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import jdk.nashorn.internal.ir.BreakableNode;
 import risk.controllers.GameSetup;
 import risk.controllers.RiskController;
 import risk.controllers.Turn;
@@ -137,9 +138,7 @@ public class GameViewController implements View, Initializable{
 	//aux buttons                                       
 	@FXML                              
 	private Button button1;
-	@FXML                                 
-	private Button button2;
-	@FXML                                 
+	@FXML                                                                 
 	private Button aux1;
 	@FXML                              
 	private Button aux2;
@@ -467,9 +466,9 @@ public class GameViewController implements View, Initializable{
 		break;
 		case 9: button1.setVisible(false);
 		break;
-		case 10: button2.setVisible(false);
-		break;
 		case 11: attack.setVisible(false);
+		break;
+		case 12: next.setVisible(false);
 		}
 	}
 	public void showButton(int buttonID) {
@@ -494,9 +493,9 @@ public class GameViewController implements View, Initializable{
 		break;
 		case 9: button1.setVisible(true);
 		break;
-		case 10: button2.setVisible(true);
-		break;
 		case 11: attack.setVisible(true);
+		break;
+		case 12: next.setVisible(true);
 		}
 	}
 	@FXML
@@ -524,8 +523,8 @@ public class GameViewController implements View, Initializable{
 		aux2.managedProperty().bind(aux2.visibleProperty());
 		aux3.managedProperty().bind(aux3.visibleProperty());
 		button1.managedProperty().bind(button1.visibleProperty());
-		button2.managedProperty().bind(button2.visibleProperty());
 		attack.managedProperty().bind(attack.visibleProperty());
+		next.managedProperty().bind(next.visibleProperty());
 		mapView.setPreserveRatio(true);
 		Image mapImage = new Image("/risk/views/Images/risk-1-original.jpg");
 		mapView.setImage(mapImage);
@@ -542,9 +541,6 @@ public class GameViewController implements View, Initializable{
 		if (sourceHashCode == button1.hashCode()) {
 			viewController.showStartMenu();
 		}
-		else if (sourceHashCode == button2.hashCode()) {
-			
-		}
 	}
 	
 	
@@ -555,7 +551,7 @@ public class GameViewController implements View, Initializable{
 	
 	@FXML
 	private void next(ActionEvent actionEvent) {
-		
+		Turn.next();
 	}
 	
 	private void turnOffPickOnBoundsFor(Node n) {

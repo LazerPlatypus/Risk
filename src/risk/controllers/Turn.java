@@ -1,8 +1,11 @@
 package risk.controllers;
 
 import java.util.ArrayList;
+import java.util.concurrent.BlockingDeque;
 
 import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
+
+import com.sun.xml.internal.ws.assembler.jaxws.MustUnderstandTubeFactory;
 
 import risk.controllers.viewControllers.AlertBox;
 import risk.controllers.viewControllers.NumberOptionBox;
@@ -29,6 +32,19 @@ public class Turn extends GameSetup{
 		upKeep();
 	}
 	
+	public static void next() {
+		if (isAttackPhase) {
+			isAttackPhase = false;
+			freeMovePhase();
+		}
+		else if (isFreeMovePhase) {
+			isFreeMovePhase = false;
+			endTurn();
+		} else {
+			AlertBox.display("Next", "You must complete the current phase before proceeding");
+		}
+	}
+	
 	public static void upKeep() {
 		viewController.hideButton(0);
 		int unitsToRecieve = calculateUnitsRecieved();
@@ -37,6 +53,7 @@ public class Turn extends GameSetup{
 		}
 		currentView.showError("It is "+currentBoard.getActivePlayer().displayName()+"'s turn.\nplace all your inactive units on territories you control.");
 		viewController.showButton(7);
+		viewController.showButton(12);
 	}
 	
 	public static void attackPhase() {
@@ -46,8 +63,9 @@ public class Turn extends GameSetup{
 		viewController.showButton(11);
 	}
 	public static void freeMovePhase() {
+		isAttackPhase = false;
 		AlertBox.display("Free Move", "You've entered the free move phase");
-		viewController.hideButton(11);
+		viewController.hideButton(8);
 		isFreeMovePhase = true;
 	}
 	public static Territory territoryToAttackFrom;
@@ -61,7 +79,13 @@ public class Turn extends GameSetup{
 					AlertBox.display("Attack", "You can't attack from this Territory");
 				}
 			} else {
-				if (!currentBoard.getActivePlayer().getOwnedTerritories().contains(currentTerritory)) {
+				boolean allow = false;
+				for (Territory territory : selectedTerritory.getAdjacentTerritories()) {
+					if (territory == territoryToAttackFrom) {
+						allow = true;
+					}
+				}
+				if (!currentBoard.getActivePlayer().getOwnedTerritories().contains(currentTerritory) && allow) {
 					AlertBox.display("Attack", "Attacking: "+currentTerritory.getTerritoryName().toString());
 					attack(territoryToAttackFrom, currentTerritory);
 				}
@@ -90,9 +114,16 @@ public class Turn extends GameSetup{
 					AlertBox.display("Free Move", "You don't own this Territory");
 				}
 			} else {
+				boolean allow = false;
+				for (Territory territory : selectedTerritory.getAdjacentTerritories()) {
+					if (territory == territoryToMoveFrom) {
+						allow = true;
+					}
+				}
 				if (currentBoard.getActivePlayer().getOwnedTerritories().contains(currentTerritory)) {
 					AlertBox.display("Free Move", "Moving to: "+currentTerritory.getTerritoryName().toString());
 					freeMove(territoryToMoveFrom, currentTerritory);
+					next();
 				}
 				else if (currentTerritory == territoryToAttackFrom) {
 					territoryToMoveFrom=null;
@@ -144,9 +175,7 @@ public class Turn extends GameSetup{
 		} else {
 			AlertBox.display("Loss", "Attack was unsuccessful"); //successful couldnt spell
 		}
-		isAttackPhase = false;
 		Turn.territoryToAttackFrom = null;
-		freeMovePhase();
 	}
 	
 	public static void freeMove(Territory movingFromTerritory, Territory movingToTerritory) {
@@ -156,9 +185,7 @@ public class Turn extends GameSetup{
 			movingFromTerritory.getOccupyingUnits().remove(movingFromTerritory.getOccupyingUnits().size()-1);
 		}
 		AlertBox.display("Free Move", "Successfuly moved "+numOfUnitsToMove+" Units to "+movingToTerritory.getTerritoryName().toString());
-		isFreeMovePhase = false;
 		Turn.territoryToMoveFrom = null;
-		endTurn();
 	}
 	
 	public static void endTurn() {
