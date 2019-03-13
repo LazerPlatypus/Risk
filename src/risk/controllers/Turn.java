@@ -123,6 +123,7 @@ public class Turn extends GameSetup{
 	//after the freeMovePhase is over, endTurn begins
 	
 	public static void endTurn() {
+		System.out.println("Ended the turn");
 		//checks if the current player earned a card.
 		if (getsCard) {
 			//gives the current player a card 
@@ -139,17 +140,23 @@ public class Turn extends GameSetup{
 		getsCard = false;
 		//increments the turn count
 		turnCount++;
+		if (turnCount>currentBoard.getPlayerOrder().length) {
+			turnCount = 0;
+		}
 		//changes the game-state based off the turn count
 		//from: GameSetup
 		//the gameState is based off the phase of the game, and what player is active, so we need to set that.
 		//as we are still in setup, the phase stays 0, but the active player is determined by taking the turnCount
 		//and dividing it by the number of players in PlayerOrder, with the result being what's leftover.
-		currentBoard.setGameState(new int[] {1, turnCount%currentBoard.getPlayerOrder().length});
+		currentBoard.setGameState(new int[] {1,turnCount});
+//		System.out.println(turnCount);
+//		System.out.println(currentBoard.getPlayerOrder().length%turnCount);
 		//changes the current player based of the game-state.
 		//from: GameSetup
 		//the active player is just a copy of the GameState, so we find it by taking the index of the PlayerOrder via the GameState 
 		currentBoard.setActivePlayer(currentBoard.getPlayerOrder()[currentBoard.getGameState()[1]]);
-		
+		System.out.println(currentBoard.getActivePlayer().displayName());
+		upKeep();
 	}
 	
 	//game-play logic. organized by the (rough) order it will probably get called.
