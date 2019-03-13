@@ -1,7 +1,9 @@
 package risk.controllers;
 
 import java.util.ArrayList;
+
 import risk.controllers.viewControllers.AlertBox;
+import risk.controllers.viewControllers.ConfirmBox;
 import risk.controllers.viewControllers.NumberOptionBox;
 import risk.controllers.viewControllers.NumberSliderBox;
 import risk.models.Card;
@@ -130,6 +132,42 @@ public class Turn extends GameSetup{
 	
 	//game-play logic. organized by the (rough) order it will probably get called.
 	
+	
+	//this method calculates how many units the current player should recieve at the start of their turn.
+	public static int calculateUnitsRecieved() {
+		int unitsToRecieve = 0;
+		//players get 1 unit per territory
+		unitsToRecieve += currentBoard.getActivePlayer().getOwnedTerritories().size();
+		//players get 5 units per country owned, to check if the player owned a country, we need to:
+		//save the color of the player, it makes the code easier to read, and reduces calls
+		UnitColor colorToCheckFor = currentBoard.getActivePlayer().getActiveUnits().get(0).getUnitColor();
+		//loop through every country in the map of the current board
+		for (Country country : currentBoard.getMap().getCountries().values()) {
+			//we assume that the player doesn't own any territories in the country to start.
+			int territoryOwnedCount = 0;
+			//loop through every territory in the country
+			for (Territory territory : country.getTerritories().values()) {
+				//check to make sure the territory has at least one unit (prevents null pointers)
+				if (territory.getOccupyingUnits().size()>0) {
+					//check if the color of unit at the first index of the territory is the same
+					//as the player's unit color
+					if (territory.getOccupyingUnits().get(0).getUnitColor() == colorToCheckFor) {
+						//adds that territory to the total owned territories
+						territoryOwnedCount += 1;
+					}
+				}
+			}
+			//if the total of owned territories is the same as there are territories in the country
+			//the player owns every territory in the country
+			if (territoryOwnedCount == country.getTerritories().size()) {
+				//they receive their 5 units.
+				unitsToRecieve += 5;
+			}
+		}
+		//TODO implement card trading for units
+		return unitsToRecieve;
+	}
+	
 	//basically a copy-paste from GameSetup. the only difference is that every territory is occupied now.
 	public static void placeUnit() {
 		//checks to make sure the selected territory isn't null
@@ -165,163 +203,263 @@ public class Turn extends GameSetup{
 		}
 	}
 	
+	//when the user wants to attack, this gets called.
+	//this method selects the 2 territories that will be used
+	//for Attack() and verifies that they are both valid.
+	
 	
 	
 	public static void setupAttack() {
+		//makes sure that it is the attack phase (theoretically we can get rid of this as the button isn't visible
+		//until it is the attack phase. but in case the view gets changed we'll keep it
 		if (isAttackPhase) {
+			//if there isnt a territory to attack from
 			if (territoryToAttackFrom == null) {
+				//checks that the current territory is owned by the current Player
 				if (currentBoard.getActivePlayer().getOwnedTerritories().contains(currentTerritory)) {
-					AlertBox.display("Attack", "Attacking from: "+currentTerritory.getTerritoryName().toString());
-					territoryToAttackFrom = currentTerritory;
+					//verifies that the user wants to attack from that territory
+					if(ConfirmBox.display("Attack", "Do you want to attack from: "+currentTerritory.getTerritoryName().toString()+"?")) {
+						//sets the attacking territory to the current territory
+						territoryToAttackFrom = currentTerritory;						
+					}
 				} else {
 					AlertBox.display("Attack", "You can't attack from this Territory");
 				}
+			//if there has already been an attacking territory selected 
 			} else {
-				boolean allow = false;
+				//checks to see if the selected territory is adjacent to the attacking territory
+				boolean isadjacent = false;
+				//loops through each territory in the selected territories adjacency list
+				//if the attacking territory is found, attacking is allowed
 				for (Territory territory : selectedTerritory.getAdjacentTerritories()) {
 					if (territory == territoryToAttackFrom) {
-						allow = true;
+						isadjacent = true;
 					}
 				}
-				if (!currentBoard.getActivePlayer().getOwnedTerritories().contains(currentTerritory) && allow) {
-					AlertBox.display("Attack", "Attacking: "+currentTerritory.getTerritoryName().toString());
-					attack(territoryToAttackFrom, currentTerritory);
+				//only allows the attack to proceed if the current user DOESN'T own the selected territory,
+				//and if the territory is adjacent
+				if (!currentBoard.getActivePlayer().getOwnedTerritories().contains(currentTerritory) && isadjacent) {
+					//verifies that the user wants to attack that territory
+					if (ConfirmBox.display("Attack", "Do you want to attack: "+currentTerritory.getTerritoryName().toString()+"?")) {
+						//attacks with the two territories
+						attack(territoryToAttackFrom, currentTerritory);
+					}
 				}
+				//if the user selects the current territory twice, it de-selects that territory
+				//so they can attack from a new territory **1337 skills**
 				else if (currentTerritory == territoryToAttackFrom) {
 					territoryToAttackFrom=null;
 				} else {
+					//alerts the user if they selected an invalid territory
 					AlertBox.display("Attack", "You can't attack this Territory");
 				}
 			}
+		//alerts the player if it isnt the attack phase yet
+			//again, shouldn't be possible to get here. but just in case.
 		} else {
 			AlertBox.display("Attack", "You can't attack yet");
 		}
 	}
 	
+	//this method checks to see who owns a territory
 	
-	public static void setupFreeMove() {
-		if (isFreeMovePhase) {
-			if (territoryToMoveFrom == null) {
-				if (currentBoard.getActivePlayer().getOwnedTerritories().contains(currentTerritory)) {
-					if (currentTerritory.getOccupyingUnits().size()>1) {
-						AlertBox.display("Free Move", "Moving from: "+currentTerritory.getTerritoryName().toString());
-						territoryToMoveFrom = currentTerritory;
-					} else {
-						AlertBox.display("Free Move", "There aren't enough units to move from this territory");
-					}
-				} else {
-					AlertBox.display("Free Move", "You don't own this Territory");
-				}
-			} else {
-				boolean allow = false;
-				for (Territory territory : selectedTerritory.getAdjacentTerritories()) {
-					if (territory == territoryToMoveFrom) {
-						allow = true;
-					}
-				}
-				if (currentBoard.getActivePlayer().getOwnedTerritories().contains(currentTerritory) && allow) {
-					AlertBox.display("Free Move", "Moving to: "+currentTerritory.getTerritoryName().toString());
-					freeMove(territoryToMoveFrom, currentTerritory);
-					next();
-				}
-				else if (currentTerritory == territoryToAttackFrom) {
-					territoryToMoveFrom=null;
-				} else {
-					AlertBox.display("Attack", "You can't attack this country");
+	public static Player getOwnerOfTerritory(Territory territoryToFindOwner) {
+		Player owner = null;
+		//checks to make sure the territory isn't empty
+		if (territoryToFindOwner.getOccupyingUnits().size()>0) {
+			//gets the color of the units in a territory
+			UnitColor territoryColor = territoryToFindOwner.getOccupyingUnits().get(0).getUnitColor();
+			//loops through all the players
+			for (Player player : currentBoard.getPlayerOrder()) {
+				//checks to see which one matches the color of the territory
+				if (territoryColor == player.getActiveUnits().get(0).getUnitColor()) {
+					owner = player;
 				}
 			}
-		} else {
-			AlertBox.display("Free Move", "You can't free move yet");
 		}
+		//return that player
+		return owner;
 	}
 	
+	//attacking method
+	//TODO this method does a lot more than it's supposed to.
+	
 	public static void attack(Territory territoryToAttackFrom, Territory territoryToAttack) {
-		Player defendingPlayer = null;
-		UnitColor defendingPlayerColor = territoryToAttack.getOccupyingUnits().get(0).getUnitColor();
-		for (Player player : currentBoard.getPlayerOrder()) {
-			if (defendingPlayerColor == player.getActiveUnits().get(0).getUnitColor()) {
-				defendingPlayer = player;
-			}
-		}
+		//find the defending player
+		Player defendingPlayer = getOwnerOfTerritory(territoryToAttack);
+		//loop the attack phase until the attacking territory no longer has more than one unit --meaning the attacker lost
+		//or the defending territory no longer has more than 0 units --meaning the defender lost
 		while (territoryToAttackFrom.getOccupyingUnits().size()>1 && territoryToAttack.getOccupyingUnits().size()>0) {
-			int numOfUnitsToAttackWith = NumberOptionBox.display("Attack", "How many units do you want to attack with?", territoryToAttackFrom.getOccupyingUnits().size());
-			int numOfUnitsToDefendWith = NumberOptionBox.display("Defend", "How many units do you want to defend with?", territoryToAttack.getOccupyingUnits().size()>2?2:territoryToAttack.getOccupyingUnits().size());
-			System.out.println("Num of units in territory to attack: "+territoryToAttack.getOccupyingUnits().size());
+			//prompt the attacking user for how many units to attack with
+			int numOfUnitsToAttackWith = NumberOptionBox.display("Attack", "How many units do you want to attack with, "+currentBoard.getActivePlayer().displayName()+"?", territoryToAttackFrom.getOccupyingUnits().size());
+			//prompt the defending user for how many units to defend with
+			int numOfUnitsToDefendWith = NumberOptionBox.display("Defend", "How many units do you want to defend with, "+defendingPlayer.displayName()+"?", territoryToAttack.getOccupyingUnits().size()>2?2:territoryToAttack.getOccupyingUnits().size());
+			//testing purposes
+//			System.out.println("Num of units in territory to attack: "+territoryToAttack.getOccupyingUnits().size());
+			//TODO implement dice
+			//while there are still units to attack with
 			while (numOfUnitsToAttackWith > 0) {
+				//if there are more than 0 defending units, kill one per attacking unit
 				if (territoryToAttack.getOccupyingUnits().size()>0) {
 					territoryToAttack.getOccupyingUnits().remove(territoryToAttack.getOccupyingUnits().size()-1);
 				}
 				numOfUnitsToAttackWith--;
-				System.out.println("units left attacking: "+numOfUnitsToAttackWith);
+				//testing purposes
+//				System.out.println("units left attacking: "+numOfUnitsToAttackWith);
 			}
-			System.out.println("Num of units in territory to attack: "+territoryToAttack.getOccupyingUnits().size());
-			System.out.println("Num of units in territory attaking: "+territoryToAttackFrom.getOccupyingUnits().size());
+//			System.out.println("Num of units in territory to attack: "+territoryToAttack.getOccupyingUnits().size());
+//			System.out.println("Num of units in territory attaking: "+territoryToAttackFrom.getOccupyingUnits().size());
+			//while there are still units to defend with
 			while (numOfUnitsToDefendWith > 0) {
+				//if there are more than one unit in the attacking territory, kill one per defending unit
 				if (territoryToAttackFrom.getOccupyingUnits().size()>1) {
 					territoryToAttackFrom.getOccupyingUnits().remove(territoryToAttackFrom.getOccupyingUnits().size()-1);
 				}
 				numOfUnitsToDefendWith--;
-				System.out.println("units left defending: "+numOfUnitsToDefendWith);
+				//testing purposes
+//				System.out.println("units left defending: "+numOfUnitsToDefendWith);
 			}
-			System.out.println("Num of units in territory attaking: "+territoryToAttackFrom.getOccupyingUnits().size());
+			//testing purposes
+//			System.out.println("Num of units in territory attaking: "+territoryToAttackFrom.getOccupyingUnits().size());
 		}
+		//if either one of the previous conditions are no longer met:
+		//if the attaking territory has more than one unit, they won.
 		if (territoryToAttackFrom.getOccupyingUnits().size()>1) {
-			AlertBox.display("Victory", "Attack Sucessful");
+			//notify the user that they won
+			AlertBox.display("Victory", currentBoard.getActivePlayer().displayName()+", Attack Sucessful!");
+			//move units from the attacking territory to the defending territory
 			freeMove(territoryToAttackFrom, territoryToAttack);
+			//remove the territory from the list of owned territories the defending player has
 			defendingPlayer.getOwnedTerritories().remove(territoryToAttack);
-			if (defendingPlayer.getOwnedTerritories().size()<1) {
-				Player[] tempPlayerArray = new Player[currentBoard.getPlayerOrder().length-1];
-				int internalCounter = 0;
-				for (int i = 0; i < currentBoard.getPlayerOrder().length; i++) {
-					if (currentBoard.getPlayerOrder()[i]== defendingPlayer) {
-					} else {
-						tempPlayerArray[internalCounter] = currentBoard.getPlayerOrder()[i];
-						internalCounter++;
-					}
-				}
-				if (currentBoard.getPlayerOrder().length<2) {
-					RiskController.winGame();
-				}
-			}
+			//add the territory to the attackers list of owned territories
 			currentBoard.getActivePlayer().getOwnedTerritories().add(territoryToAttack);
+			//the player attacked and won a territory, so they get a card TODO not fully implemented
 			getsCard = true;
 		} else {
+			//notifies the player that they did not win
 			AlertBox.display("Loss", "Attack was unsuccessful"); //successful couldn't spell
 		}
+		//sets the territory to attack from to null, to allow for re-selection and subsequent attacking.
 		Turn.territoryToAttackFrom = null;
+		//check to see if that eliminated the player
+		checkForElimination(defendingPlayer);
 	}
 	
+	//very similar to setupAttack() this makes sure that the player has selected
+	//two valid territories to move between, and calls the move function.
+	
+	public static void setupFreeMove() {
+		//makes sure that the player is allowed to move (theoretically impossible not to trigger)
+		if (isFreeMovePhase) {
+			//checks to see if a territory to move from has been selected
+			if (territoryToMoveFrom == null) {
+				//if not, it makes sure the player owns that territory
+				if (currentBoard.getActivePlayer().getOwnedTerritories().contains(currentTerritory)) {
+					//makes sure that the territory to move from has more than one unit
+					if (currentTerritory.getOccupyingUnits().size()>1) {
+						//verifies that the player wants to move from the selected country
+						if (ConfirmBox.display("Free Move", "Do you want to move from: "+currentTerritory.getTerritoryName().toString()+"?")) {
+							//if so, sets that as the territory to move from
+							territoryToMoveFrom = currentTerritory;
+						}
+					} else {
+						//notifies the player that they can't move from the territory
+						AlertBox.display("Free Move", "There aren't enough units to move from this territory");
+					}
+				} else {
+					//notifies the player that they can't move from the territory
+					AlertBox.display("Free Move", "You don't own this Territory");
+				}
+				//if a territory to move from has been selected: 
+			} else {
+				//we need to check and make sure that the territory is adjacent
+				//to the territory to move from, we'll assume that it's not by default
+				boolean isadjacent = false;
+				//loops through each territory in the adjacent territory array
+				for (Territory territory : selectedTerritory.getAdjacentTerritories()) {
+					//checks if the territory is adjacent
+					if (territory == territoryToMoveFrom) {
+						//sets it so
+						isadjacent = true;
+					}
+				}
+				//only allows the move if the player owns the territory to move to, and the territory is adjacent
+				if (currentBoard.getActivePlayer().getOwnedTerritories().contains(currentTerritory) && isadjacent) {
+					//verifies that the player wants to move to that territory
+					if (ConfirmBox.display("Free Move", "Do you want to move to: "+currentTerritory.getTerritoryName().toString()+"?")) {
+						//moves the units
+						freeMove(territoryToMoveFrom, currentTerritory);
+						//ends the free move phase
+						next();
+					}
+				}
+				//resets the territory selector if the two territories are the same
+				else if (currentTerritory == territoryToAttackFrom) {
+					territoryToMoveFrom=null;
+				} else {
+					//informs the player that they cannot move to that territory
+					AlertBox.display("Attack", "You do not own this territory");
+				}
+			}
+		} else {
+			//informs the player that they cannot move from this territory
+			AlertBox.display("Free Move", "You do not own enough units to move from this territory");
+		}
+	}
+	
+	
+	//this method moves units between two territories. is a minimum of one territory moved each time,
+	//this method gets called every time there is a successful attack, or a free move.
 	public static void freeMove(Territory movingFromTerritory, Territory movingToTerritory) {
+		//prompts the user for how many units they would like to move
 		int numOfUnitsToMove = NumberSliderBox.display("Free Move", "How many units would you like to move?", 1, movingFromTerritory.getOccupyingUnits().size()-1);
+		//for each unit they want to move, this removes a unit from the territory to move from,
+		//and adds it to the territory to move to,
+		//always adding and taking from the back
 		for (int i = 0; i < numOfUnitsToMove; i++) {
 			movingToTerritory.getOccupyingUnits().add(movingFromTerritory.getOccupyingUnits().get(movingFromTerritory.getOccupyingUnits().size()-1));
 			movingFromTerritory.getOccupyingUnits().remove(movingFromTerritory.getOccupyingUnits().size()-1);
 		}
+		//informs the user that the units were moved
 		AlertBox.display("Free Move", "Successfuly moved "+numOfUnitsToMove+" Units to "+movingToTerritory.getTerritoryName().toString());
+		//resets the territory to move from variable to allow for future selection
 		Turn.territoryToMoveFrom = null;
 	}
 	
-	
-	
-	public static int calculateUnitsRecieved() {
-		int unitsToRecieve = 0;
-		unitsToRecieve += currentBoard.getActivePlayer().getOwnedTerritories().size();
-		UnitColor colorToCheckFor = currentBoard.getActivePlayer().getActiveUnits().get(0).getUnitColor();
-		for (Country country : currentBoard.getMap().getCountries().values()) {
-			int ownedCount = 0;
-			for (Territory territory : country.getTerritories().values()) {
-				if (territory.getOccupyingUnits().size()>0) {
-					if (territory.getOccupyingUnits().get(0).getUnitColor() == colorToCheckFor) {
-						ownedCount += 1;
-					}
+	public static void checkForElimination(Player playerToCheck) {
+		//checks to see if the player to check has less than one territories
+		if (playerToCheck.getOwnedTerritories().size()<1) {
+			//if they have less than one, we need to remove them from the PlayerOrder[] by:
+			//making a temporary array with a size one less than the playerOrder[]
+			Player[] tempPlayerArray = new Player[currentBoard.getPlayerOrder().length-1];
+			//make a separate counter to compensate for the reduced length of the array
+			int internalCounter = 0;
+			//loop through every index of the playerOrder[]
+			for (int i = 0; i < currentBoard.getPlayerOrder().length; i++) {
+				//if the player in the array is the player to check
+				if (currentBoard.getPlayerOrder()[i]== playerToCheck) {
+				//do nothing
+				} else {
+					//otherwise, add the player to the temporary array
+					tempPlayerArray[internalCounter] = currentBoard.getPlayerOrder()[i];
+					//increment the counter
+					internalCounter++;
 				}
 			}
-			if (ownedCount == country.getTerritories().size()) {
-				unitsToRecieve += 5;
-			}
+			//check for a win, because a player has just been eliminated.
+			checkForWin();
 		}
-		return unitsToRecieve;
 	}
+	
+	//checks to see if someone won the game.
+	//a player wins if there are no other players in the game
+	public static void checkForWin() {
+		if (currentBoard.getPlayerOrder().length<2) {
+			RiskController.winGame();
+		}
+	}
+	
+	
 	
 	
 }
