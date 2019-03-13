@@ -41,6 +41,7 @@ public class RiskController {
 	
 	public static void startGame(String[] playerNames) {
 		currentBoard = BoardController.CreateBoard(playerNames);
+		TerritoryController.setupAdjacentTerritories();
 		resumeGame();
 	}
 	

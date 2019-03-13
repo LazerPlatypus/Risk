@@ -28,6 +28,7 @@ public class Turn extends GameSetup{
 	private static boolean getsCard = false;
 	public static void start() {
 		viewController.showGame();
+		currentBoard.setGameState(new int[] {1,0});
 		System.out.println("Game setup finished!");
 		upKeep();
 	}
@@ -65,7 +66,7 @@ public class Turn extends GameSetup{
 	public static void freeMovePhase() {
 		isAttackPhase = false;
 		AlertBox.display("Free Move", "You've entered the free move phase");
-		viewController.hideButton(8);
+		viewController.showButton(8);
 		isFreeMovePhase = true;
 	}
 	public static Territory territoryToAttackFrom;

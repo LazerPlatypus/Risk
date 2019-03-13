@@ -20,8 +20,11 @@ public class GameSetup extends RiskController{
 		viewController.showGame();
 		viewController.setPlayesToDisplay(currentBoard.getPlayers().length);
 		currentBoard.setActivePlayer(currentBoard.getPlayerOrder()[currentBoard.getGameState()[1]]);
-		currentView.showError("It is "+currentBoard.getActivePlayer().getName()+"'s Turn!\nPlace a unit by clicking on a territory, then pressing AUX1");
+		currentView.showError("It is "+currentBoard.getActivePlayer().getName()+"'s Turn!\nPlace a unit by clicking on a territory, then pressing 'Place Unit'");
 		viewController.hideButton(7);
+		viewController.hideButton(8);
+		viewController.hideButton(12);
+		viewController.hideButton(11);
 	}
 	
 	
@@ -47,9 +50,9 @@ public class GameSetup extends RiskController{
 			}
 			currentView.updateDisplay();
 			turnCount++;
-			currentBoard.setGameState(new int[] {1,turnCount%currentBoard.getPlayerOrder().length});
+			currentBoard.setGameState(new int[] {0,turnCount%currentBoard.getPlayerOrder().length});
 			currentBoard.setActivePlayer(currentBoard.getPlayerOrder()[currentBoard.getGameState()[1]]);
-			currentView.showError("It is "+currentBoard.getActivePlayer().getName()+"'s Turn!\nPlace a unit by clicking on a territory, then pressing AUX1");
+			currentView.showError("It is "+currentBoard.getActivePlayer().getName()+"'s Turn!\nPlace a unit by clicking on a territory, then pressing 'Place Unit'");
 			} else {
 				System.out.println("Displaying error");
 				AlertBox.display("Whoopsie-doo", "You cannot place a unit there.\nThat space is already occupied!");

@@ -36,7 +36,7 @@ public enum TerritoryName {
 	INDIA,
 	IRKUTSK,
 	JAPAN,
-	KAMCATKA,
+	KAMCHATKA,
 	MIDDLE_EAST,
 	MONGOLIA,
 	SIAM,
@@ -44,7 +44,7 @@ public enum TerritoryName {
 	URAL,
 	YAKUTSK,
 	EASTERN_AUSTRALIA,
-	INDONEASIA,
+	INDONESIA,
 	NEW_GUINEA,
 	WESTERN_AUSTRALIA;
 	

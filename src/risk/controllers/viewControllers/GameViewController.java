@@ -355,7 +355,7 @@ public class GameViewController implements View, Initializable{
 		}
 		else if (sourceHashCode==kamchatkaSelector.hashCode()) {
 			countryKey = CountryName.ASIA;
-			territoryKey = TerritoryName.KAMCATKA;
+			territoryKey = TerritoryName.KAMCHATKA;
 		}
 		else if (sourceHashCode==middleEastSelector.hashCode()) {
 			countryKey = CountryName.ASIA;
@@ -387,7 +387,7 @@ public class GameViewController implements View, Initializable{
 		}
 		else if (sourceHashCode==indonesiaSelector.hashCode()) {
 			countryKey = CountryName.AUSTRALIA;
-			territoryKey = TerritoryName.INDONEASIA;
+			territoryKey = TerritoryName.INDONESIA;
 		}
 		else if (sourceHashCode==newGuineaSelector.hashCode()) {
 			countryKey = CountryName.AUSTRALIA;

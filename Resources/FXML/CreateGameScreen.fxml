@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" maxHeight="400" maxWidth="600" minHeight="400" minWidth="600" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.191" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controllers.viewControllers.CreateGameViewController">
+<VBox alignment="CENTER" maxHeight="400" maxWidth="600" minHeight="400" minWidth="600" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controllers.viewControllers.CreateGameViewController">
    <children>
       <HBox alignment="BOTTOM_CENTER" prefHeight="29.0" prefWidth="600.0">
          <children>
@@ -41,7 +41,7 @@
             </TextField>
          </children>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="34.0" prefWidth="600.0" fx:id="player3Options">
+      <HBox fx:id="player3Options" alignment="CENTER" prefHeight="34.0" prefWidth="600.0">
          <children>
             <TextField fx:id="player3TextField" promptText="Player 3 Name">
                <HBox.margin>
@@ -50,25 +50,25 @@
             </TextField>
          </children>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="34.0" prefWidth="600.0" fx:id="player4Options">
+      <HBox fx:id="player4Options" alignment="CENTER" prefHeight="34.0" prefWidth="600.0">
          <children>
-            <TextField fx:id="player4TextField" promptText="Player 4 Name" >
+            <TextField fx:id="player4TextField" promptText="Player 4 Name">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
             </TextField>
          </children>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="34.0" prefWidth="600.0" fx:id="player5Options">
+      <HBox fx:id="player5Options" alignment="CENTER" prefHeight="34.0" prefWidth="600.0">
          <children>
-            <TextField fx:id="player5TextField" promptText="Player 5 Name" >
+            <TextField fx:id="player5TextField" promptText="Player 5 Name">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
             </TextField>
          </children>
       </HBox>
-      <HBox alignment="CENTER" prefHeight="34.0" prefWidth="600.0" fx:id="player6Options">
+      <HBox fx:id="player6Options" alignment="CENTER" prefHeight="34.0" prefWidth="600.0">
          <children>
             <TextField fx:id="player6TextField" promptText="Player 6 Name">
                <HBox.margin>
@@ -79,12 +79,12 @@
       </HBox>
       <HBox alignment="CENTER">
          <children>
-            <Button fx:id="backButton" mnemonicParsing="false" onAction="#buttonPressed" prefWidth="75.0" text="Back">
+            <Button fx:id="backButton" minWidth="100.0" mnemonicParsing="false" onAction="#buttonPressed" prefWidth="75.0" text="Back">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="continueButton" mnemonicParsing="false" onAction="#buttonPressed" prefWidth="75.0" text="Continue" />
+            <Button fx:id="continueButton" minWidth="100.0" mnemonicParsing="false" onAction="#buttonPressed" prefWidth="75.0" text="Continue" />
          </children>
          <VBox.margin>
             <Insets top="20.0" />

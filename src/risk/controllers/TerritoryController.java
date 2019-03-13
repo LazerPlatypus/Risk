@@ -33,7 +33,7 @@ public class TerritoryController extends RiskController {
 				switch (territory.getTerritoryName()) {
 				case ALASKA:
 					territory.setAdjacentTerritories(new Territory[] {northAmericaTerritories.get(TerritoryName.NORTHWEST_TERRITORY),
-								northAmericaTerritories.get(TerritoryName.ALBERTA), asiaTerritories.get(TerritoryName.KAMCATKA)});
+								northAmericaTerritories.get(TerritoryName.ALBERTA), asiaTerritories.get(TerritoryName.KAMCHATKA)});
 					break;
 				case ALBERTA:
 					territory.setAdjacentTerritories(new Territory[] {northAmericaTerritories.get(TerritoryName.ALASKA),
@@ -154,12 +154,12 @@ public class TerritoryController extends RiskController {
 					break;
 				case IRKUTSK:
 					territory.setAdjacentTerritories(new Territory[] {asiaTerritories.get(TerritoryName.SIBERIA), asiaTerritories.get(TerritoryName.YAKUTSK),
-							asiaTerritories.get(TerritoryName.KAMCATKA), asiaTerritories.get(TerritoryName.MONGOLIA)});
+							asiaTerritories.get(TerritoryName.KAMCHATKA), asiaTerritories.get(TerritoryName.MONGOLIA)});
 					break;
 				case JAPAN:
-					territory.setAdjacentTerritories(new Territory[] {asiaTerritories.get(TerritoryName.MONGOLIA), asiaTerritories.get(TerritoryName.KAMCATKA)});
+					territory.setAdjacentTerritories(new Territory[] {asiaTerritories.get(TerritoryName.MONGOLIA), asiaTerritories.get(TerritoryName.KAMCHATKA)});
 					break;
-				case KAMCATKA:
+				case KAMCHATKA:
 					territory.setAdjacentTerritories(new Territory[] {asiaTerritories.get(TerritoryName.YAKUTSK), asiaTerritories.get(TerritoryName.IRKUTSK),
 							asiaTerritories.get(TerritoryName.MONGOLIA), asiaTerritories.get(TerritoryName.JAPAN), northAmericaTerritories.get(TerritoryName.ALASKA)});
 					break;
@@ -169,12 +169,12 @@ public class TerritoryController extends RiskController {
 							africaTerritories.get(TerritoryName.EAST_AFRICA)});
 					break;
 				case MONGOLIA:
-					territory.setAdjacentTerritories(new Territory[] {asiaTerritories.get(TerritoryName.IRKUTSK), asiaTerritories.get(TerritoryName.KAMCATKA),
+					territory.setAdjacentTerritories(new Territory[] {asiaTerritories.get(TerritoryName.IRKUTSK), asiaTerritories.get(TerritoryName.KAMCHATKA),
 							asiaTerritories.get(TerritoryName.JAPAN), asiaTerritories.get(TerritoryName.SIBERIA), asiaTerritories.get(TerritoryName.CHINA)});
 					break;
 				case SIAM:
 					territory.setAdjacentTerritories(new Territory[] {asiaTerritories.get(TerritoryName.INDIA), asiaTerritories.get(TerritoryName.CHINA),
-							australiaTerritores.get(TerritoryName.INDONEASIA)});
+							australiaTerritores.get(TerritoryName.INDONESIA)});
 					break;
 				case SIBERIA:
 					territory.setAdjacentTerritories(new Territory[] {asiaTerritories.get(TerritoryName.URAL), asiaTerritories.get(TerritoryName.CHINA),
@@ -185,26 +185,31 @@ public class TerritoryController extends RiskController {
 							asiaTerritories.get(TerritoryName.CHINA), asiaTerritories.get(TerritoryName.SIBERIA)});
 					break;
 				case YAKUTSK:
-					territory.setAdjacentTerritories(new Territory[] {asiaTerritories.get(TerritoryName.KAMCATKA), asiaTerritories.get(TerritoryName.SIBERIA),
+					territory.setAdjacentTerritories(new Territory[] {asiaTerritories.get(TerritoryName.KAMCHATKA), asiaTerritories.get(TerritoryName.SIBERIA),
 							asiaTerritories.get(TerritoryName.IRKUTSK)});
 					break;
 				case EASTERN_AUSTRALIA:
 					territory.setAdjacentTerritories(new Territory[] {australiaTerritores.get(TerritoryName.WESTERN_AUSTRALIA), australiaTerritores.get(TerritoryName.NEW_GUINEA)});
 					break;
-				case INDONEASIA:
+				case INDONESIA:
 					territory.setAdjacentTerritories(new Territory[] {asiaTerritories.get(TerritoryName.SIAM), australiaTerritores.get(TerritoryName.NEW_GUINEA),
 							australiaTerritores.get(TerritoryName.WESTERN_AUSTRALIA)});
 					break;
 				case NEW_GUINEA:
-					territory.setAdjacentTerritories(new Territory[] {australiaTerritores.get(TerritoryName.INDONEASIA), australiaTerritores.get(TerritoryName.WESTERN_AUSTRALIA),
+					territory.setAdjacentTerritories(new Territory[] {australiaTerritores.get(TerritoryName.INDONESIA), australiaTerritores.get(TerritoryName.WESTERN_AUSTRALIA),
 							australiaTerritores.get(TerritoryName.EASTERN_AUSTRALIA)});
 					break;
 				case WESTERN_AUSTRALIA:
-					territory.setAdjacentTerritories(new Territory[] {australiaTerritores.get(TerritoryName.INDONEASIA), australiaTerritores.get(TerritoryName.NEW_GUINEA),
+					territory.setAdjacentTerritories(new Territory[] {australiaTerritores.get(TerritoryName.INDONESIA), australiaTerritores.get(TerritoryName.NEW_GUINEA),
 							australiaTerritores.get(TerritoryName.EASTERN_AUSTRALIA)});
 					break;
 				}
 			}
 		}
+		currentBoard.getMap().getCountries().get(CountryName.AFRICA).setTerritories(africaTerritories);
+		currentBoard.getMap().getCountries().get(CountryName.NORTH_AMERICA).setTerritories(northAmericaTerritories);
+		currentBoard.getMap().getCountries().get(CountryName.SOUTH_AMERICA).setTerritories(southAmericaTerritories);
+		currentBoard.getMap().getCountries().get(CountryName.EUROPE).setTerritories(europeTerritories);
+		currentBoard.getMap().getCountries().get(CountryName.ASIA).setTerritories(asiaTerritories);
 	}
 }

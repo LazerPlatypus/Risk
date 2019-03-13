@@ -75,7 +75,7 @@ public class BoardController {
 				territories.put(TerritoryName.INDIA, new Territory(new ArrayList<Unit>(), TerritoryName.INDIA));
 				territories.put(TerritoryName.IRKUTSK, new Territory(new ArrayList<Unit>(), TerritoryName.IRKUTSK));
 				territories.put(TerritoryName.JAPAN, new Territory(new ArrayList<Unit>(), TerritoryName.JAPAN));
-				territories.put(TerritoryName.KAMCATKA, new Territory(new ArrayList<Unit>(), TerritoryName.KAMCATKA));
+				territories.put(TerritoryName.KAMCHATKA, new Territory(new ArrayList<Unit>(), TerritoryName.KAMCHATKA));
 				territories.put(TerritoryName.MIDDLE_EAST, new Territory(new ArrayList<Unit>(), TerritoryName.MIDDLE_EAST));
 				territories.put(TerritoryName.MONGOLIA, new Territory(new ArrayList<Unit>(), TerritoryName.MONGOLIA));
 				territories.put(TerritoryName.SIAM, new Territory(new ArrayList<Unit>(), TerritoryName.SIAM));
@@ -85,7 +85,7 @@ public class BoardController {
 				break;
 			case 5:
 				territories.put(TerritoryName.EASTERN_AUSTRALIA, new Territory(new ArrayList<Unit>(), TerritoryName.EASTERN_AUSTRALIA));
-				territories.put(TerritoryName.INDONEASIA, new Territory(new ArrayList<Unit>(), TerritoryName.INDONEASIA));
+				territories.put(TerritoryName.INDONESIA, new Territory(new ArrayList<Unit>(), TerritoryName.INDONESIA));
 				territories.put(TerritoryName.NEW_GUINEA, new Territory(new ArrayList<Unit>(), TerritoryName.NEW_GUINEA));
 				territories.put(TerritoryName.WESTERN_AUSTRALIA, new Territory(new ArrayList<Unit>(), TerritoryName.WESTERN_AUSTRALIA));
 				break;
