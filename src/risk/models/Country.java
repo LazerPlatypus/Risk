@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import risk.controllers.viewControllers.Displayable;
+import risk.controllers.viewControllers.interfaces.Displayable;
 import risk.models.enums.CountryName;
 import risk.models.enums.TerritoryName;
 import risk.models.enums.UnitColor;

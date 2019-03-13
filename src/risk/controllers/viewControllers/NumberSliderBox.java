@@ -1,16 +1,11 @@
 package risk.controllers.viewControllers;
 
-import java.awt.TextField;
-
 import javafx.beans.binding.Bindings;
-import javafx.beans.value.ChangeListener;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;

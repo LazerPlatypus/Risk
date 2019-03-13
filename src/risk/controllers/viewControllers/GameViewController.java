@@ -16,10 +16,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import jdk.nashorn.internal.ir.BreakableNode;
 import risk.controllers.GameSetup;
 import risk.controllers.RiskController;
 import risk.controllers.Turn;
+import risk.controllers.viewControllers.interfaces.Displayable;
+import risk.controllers.viewControllers.interfaces.View;
 import risk.models.enums.CountryName;
 import risk.models.enums.TerritoryName;
 
@@ -508,7 +509,7 @@ public class GameViewController implements View, Initializable{
 			Turn.placeUnit();
 		}
 		else if (sourceHashCode == aux3.hashCode()) {
-			Turn.startFreeMove();
+			Turn.setupFreeMove();
 		}
 	}
 	@Override
@@ -546,7 +547,7 @@ public class GameViewController implements View, Initializable{
 	
 	@FXML
 	private void attack(ActionEvent actionEvent) {
-		Turn.startAttack();
+		Turn.setupAttack();
 	}
 	
 	@FXML

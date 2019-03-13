@@ -1,6 +1,5 @@
 package risk.controllers.viewControllers;
 
-import javax.swing.TransferHandler;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;

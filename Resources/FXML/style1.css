@@ -1,0 +1,56 @@
+.root {
+	-fx-background-color: #333333;
+}
+.statTitle {
+	-fx-text-fill: #FFD700;
+	-fx-font-size: 48px;
+	-fx-font-family: "Arvo", serif;
+}
+.winnerTitle {
+	-fx-text-fill: #FFD700;
+	-fx-font-size: 54px;
+	-fx-font-family: "Arvo", serif;}
+.playerNames {
+	-fx-text-fill: #FFD700;
+	-fx-font-family: "Ubuntu", sans-serif;
+}
+.winningPlayerName {
+	-fx-text-fill: #FFD700;
+	-fx-font-size: 24px;
+	-fx-font-family: "Ubuntu", sans-serif;
+}
+
+.playerStats {
+	-fx-text-fill: #FFD700;
+	-fx-font-family: "Ubuntu", sans-serif;
+}
+.button {
+	-fx-background-color: 
+        #090a0c,
+        linear-gradient(#282828 0%, #252525 20%, #1e1e1e 100%),
+        linear-gradient(#202020, #191919),
+        linear-gradient(rgba(50,50,50,0.9), rgba(20,20,20,0));
+    -fx-background-radius: 5,4,3,5;
+    -fx-background-insets: 0,1,2,0;
+    -fx-text-fill: #FFD700;
+    -fx-font-family: "Arvo", serif;
+    -fx-text-fill: linear-gradient(#FFD700, #EEB700);
+    -fx-font-size: 14px;
+    -fx-padding: 10 20 10 20
+}
+.button:hover {
+	-fx-background-color: 
+        #090a0c,
+        linear-gradient(#282828 0%, #252525 20%, #1e1e1e 100%),
+        linear-gradient(#202020, #191919),
+        linear-gradient(rgba(70,70,70,0.9), rgba(30,30,30,0));
+}
+.button:pressed {
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
+.contentBox {
+	-fx-border-style: solid;
+	-fx-border-color: #FFD700;
+	-fx-border-radius: 5;
+	-fx-border-width: 1px;
+}

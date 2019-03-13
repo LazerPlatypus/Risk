@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@style1.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="WinScreenController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="61.0" prefWidth="559.0" styleClass="winnerTitle" text="Winner!" />
+      <ImageView fx:id="winnerPortrait" fitHeight="240.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="winningPlayerNameLabel" alignment="CENTER" prefHeight="45.0" prefWidth="454.0" styleClass="winningPlayerName" />
+      <Button fx:id="viewStatsButton" mnemonicParsing="false" onAction="#viewStats" text="View Stats" />
+   </children>
+</VBox>

@@ -1,70 +1,75 @@
 package risk.controllers;
 
-import java.io.NotActiveException;
-import java.rmi.AccessException;
-import java.util.ArrayList;
 import java.util.HashMap;
-
-import org.omg.CORBA.portable.ValueInputStream;
-
-import com.sun.javafx.binding.BidirectionalBinding;
-import com.sun.swing.internal.plaf.metal.resources.metal;
-
-import oracle.jrockit.jfr.tools.ConCatRepository;
-import risk.models.Board;
 import risk.models.Country;
 import risk.models.Territory;
 import risk.models.enums.CountryName;
 import risk.models.enums.TerritoryName;
-import sun.audio.AudioDataStream;
 
 public class TerritoryController extends RiskController {
 	
-	
+	//this is one big method that just sets up the adjacencies for each territory. 
+	//really, there isn't enough functionality to warrant its' own class, but BoardController
+	//became unreadable with this inside it as well, so its' been moved to here.
+	//I couldn't figure out a more cleaver way to do this, so everything had to be manually typed.
 	public static void setupAdjacentTerritories() {
+		//done to reduce calls to currentBoard, and increase readability.
+		//Text time: make ONE big hashmap of EVERY territory and name it something small.. that way this isn't
+		//so terrible to type.
 		HashMap<TerritoryName, Territory>northAmericaTerritories = currentBoard.getMap().getCountries().get(CountryName.NORTH_AMERICA).getTerritories();
 		HashMap<TerritoryName, Territory>southAmericaTerritories = currentBoard.getMap().getCountries().get(CountryName.SOUTH_AMERICA).getTerritories();
 		HashMap<TerritoryName, Territory>europeTerritories = currentBoard.getMap().getCountries().get(CountryName.EUROPE).getTerritories();
 		HashMap<TerritoryName, Territory>africaTerritories = currentBoard.getMap().getCountries().get(CountryName.AFRICA).getTerritories();
 		HashMap<TerritoryName, Territory>asiaTerritories = currentBoard.getMap().getCountries().get(CountryName.ASIA).getTerritories();
 		HashMap<TerritoryName, Territory>australiaTerritores = currentBoard.getMap().getCountries().get(CountryName.AUSTRALIA).getTerritories();
+		//loops through every country
 		for (Country country : currentBoard.getMap().getCountries().values()) {
+			//loops through every territory
 			for (Territory territory : country.getTerritories().values()) {
 				switch (territory.getTerritoryName()) {
+				//Alaska is connected to: Kamchatka, NorthwestTerritory, and Alberta
 				case ALASKA:
 					territory.setAdjacentTerritories(new Territory[] {northAmericaTerritories.get(TerritoryName.NORTHWEST_TERRITORY),
 								northAmericaTerritories.get(TerritoryName.ALBERTA), asiaTerritories.get(TerritoryName.KAMCHATKA)});
 					break;
+				//Alberta is connected to: Alaska, NorthwestTerritory, Ontario, Western United States
 				case ALBERTA:
 					territory.setAdjacentTerritories(new Territory[] {northAmericaTerritories.get(TerritoryName.ALASKA),
 							  northAmericaTerritories.get(TerritoryName.NORTHWEST_TERRITORY), northAmericaTerritories.get(TerritoryName.ONTARIO),
 							  northAmericaTerritories.get(TerritoryName.WESTERN_UNITED_STATES)});
 					break;
+				//Central America is connected to: Western United States, Eastern United States, Venezuela
 				case CENTERAL_AMERICA:
 					territory.setAdjacentTerritories(new Territory[] {northAmericaTerritories.get(TerritoryName.WESTERN_UNITED_STATES),
 							northAmericaTerritories.get(TerritoryName.EASTERN_UNITED_STATES), southAmericaTerritories.get(TerritoryName.VENEZUELA)});
 					break;
+				//Eastern Untied States is connected to: Western United States, Ontario, Quebec, Central America
 				case EASTERN_UNITED_STATES:
 					territory.setAdjacentTerritories(new Territory[] {northAmericaTerritories.get(TerritoryName.QUEBEC), northAmericaTerritories.get(TerritoryName.ONTARIO),
 							northAmericaTerritories.get(TerritoryName.WESTERN_UNITED_STATES), northAmericaTerritories.get(TerritoryName.CENTERAL_AMERICA)});
 					break;
+				//Greenland is connected to: Northwest Territory, Ontario, Quebec, Iceland
 				case GREENLAND:
 					territory.setAdjacentTerritories(new Territory[] {northAmericaTerritories.get(TerritoryName.QUEBEC), northAmericaTerritories.get(TerritoryName.ONTARIO),
 							northAmericaTerritories.get(TerritoryName.NORTHWEST_TERRITORY), europeTerritories.get(TerritoryName.ICELAND)});
 					break;
+				//Northwest Territory is connected to: Alaska, Alberta, Ontario, Greenland
 				case NORTHWEST_TERRITORY:
 					territory.setAdjacentTerritories(new Territory[] {northAmericaTerritories.get(TerritoryName.ALASKA), northAmericaTerritories.get(TerritoryName.ALBERTA),
 							northAmericaTerritories.get(TerritoryName.ONTARIO), northAmericaTerritories.get(TerritoryName.GREENLAND)});
 					break;
+				//Ontario is connected to: Northwest Territory, Alberta, Western United States, Eastern United States, Quebec and Greenland
 				case ONTARIO:
 					territory.setAdjacentTerritories(new Territory[] {northAmericaTerritories.get(TerritoryName.NORTHWEST_TERRITORY), northAmericaTerritories.get(TerritoryName.ALBERTA),
 							northAmericaTerritories.get(TerritoryName.WESTERN_UNITED_STATES), northAmericaTerritories.get(TerritoryName.EASTERN_UNITED_STATES),
 							northAmericaTerritories.get(TerritoryName.QUEBEC), northAmericaTerritories.get(TerritoryName.GREENLAND)});
 					break;
+				//Quebec is connected to: Greenland, Northwest Territory, Ontario, Eastern United States
 				case QUEBEC:
 					territory.setAdjacentTerritories(new Territory[] {northAmericaTerritories.get(TerritoryName.ONTARIO), northAmericaTerritories.get(TerritoryName.EASTERN_UNITED_STATES),
 							northAmericaTerritories.get(TerritoryName.GREENLAND)});
 					break;
+				//TODO
 				case WESTERN_UNITED_STATES:
 					territory.setAdjacentTerritories(new Territory[] {northAmericaTerritories.get(TerritoryName.ALBERTA), northAmericaTerritories.get(TerritoryName.ONTARIO),
 							northAmericaTerritories.get(TerritoryName.EASTERN_UNITED_STATES), northAmericaTerritories.get(TerritoryName.CENTERAL_AMERICA)});
@@ -206,10 +211,5 @@ public class TerritoryController extends RiskController {
 				}
 			}
 		}
-		currentBoard.getMap().getCountries().get(CountryName.AFRICA).setTerritories(africaTerritories);
-		currentBoard.getMap().getCountries().get(CountryName.NORTH_AMERICA).setTerritories(northAmericaTerritories);
-		currentBoard.getMap().getCountries().get(CountryName.SOUTH_AMERICA).setTerritories(southAmericaTerritories);
-		currentBoard.getMap().getCountries().get(CountryName.EUROPE).setTerritories(europeTerritories);
-		currentBoard.getMap().getCountries().get(CountryName.ASIA).setTerritories(asiaTerritories);
 	}
 }

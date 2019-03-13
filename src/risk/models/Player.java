@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import javafx.geometry.Side;
-import risk.controllers.viewControllers.Displayable;
+import risk.controllers.viewControllers.interfaces.Displayable;
 
 public class Player implements Selection, Displayable, Serializable{
 	//class variables
@@ -13,6 +13,12 @@ public class Player implements Selection, Displayable, Serializable{
 	private ArrayList<Unit> activeUnits;
 	private ArrayList<Card> cards;
 	private ArrayList<Territory> ownedTerritories;
+	private int mostOwnedTerritories;
+	private int mostActiveUnits;
+	private int territoriesTaken;
+	private int territoriesLost;
+	private int timesAttacked;
+	private int timeDefended;
 	
 	
 	//constructors
@@ -126,5 +132,43 @@ public class Player implements Selection, Displayable, Serializable{
 		}
 		return resouceLocation;
 	}
+	
+	public int getMostActiveUnits() {
+		return mostActiveUnits;
+	}
+	public int getMostOwnedTerritories() {
+		return mostOwnedTerritories;
+	}
+	public int getTerritoriesLost() {
+		return territoriesLost;
+	}
+	public int getTerritoriesTaken() {
+		return territoriesTaken;
+	}
+	public int getTimeDefended() {
+		return timeDefended;
+	}
+	public int getTimesAttacked() {
+		return timesAttacked;
+	}
+	public void setMostActiveUnits(int mostActiveUnits) {
+		this.mostActiveUnits = mostActiveUnits;
+	}
+	public void setMostOwnedTerritories(int mostOwnedTerritories) {
+		this.mostOwnedTerritories = mostOwnedTerritories;
+	}
+	public void setTerritoriesLost(int territoriesLost) {
+		this.territoriesLost = territoriesLost;
+	}
+	public void setTerritoriesTaken(int territoriesTaken) {
+		this.territoriesTaken = territoriesTaken;
+	}
+	public void setTimeDefended(int timeDefended) {
+		this.timeDefended = timeDefended;
+	}
+	public void setTimesAttacked(int timesAttacked) {
+		this.timesAttacked = timesAttacked;
+	}
+	
 	
 }

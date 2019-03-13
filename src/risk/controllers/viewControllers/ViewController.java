@@ -3,20 +3,15 @@ package risk.controllers.viewControllers;
 
 
 import java.io.IOException;
-import java.util.function.Predicate;
-
-import org.omg.CORBA.PRIVATE_MEMBER;
-
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import risk.controllers.RiskController;
+import risk.controllers.viewControllers.interfaces.Displayable;
 
 public class ViewController{
+	
 	//class variables
 	private Stage stage;
 	private StartMenuViewController startMenuViewController;
@@ -33,13 +28,10 @@ public class ViewController{
 		showStartMenu();
 	}
 	
-	public void hideButton(int buttonID) {
-		gameViewController.hideButton(buttonID);
-	}
-	public void showButton(int buttonID) {
-		gameViewController.showButton(buttonID);
-	}
-	//display/switch scene logic
+	//Controller Methods
+	
+	
+	//Stage switching Methods
 	public void showStartMenu() {
 		if (startMenuViewController == null) {
 			System.out.println("startMenuViewController is null. making it.");
@@ -76,12 +68,38 @@ public class ViewController{
 		RiskController.setView(gameViewController);
 	}
 	
+	public void showWinScreen() {
+		
+	}
+	
+	public void showStatScreen() {
+		
+	}
+	
+	//Controller Building Methods
+	
+	
+	//Pass-through logic
+	
+	public void hideButton(int buttonID) {
+		gameViewController.hideButton(buttonID);
+	}
+	
+	public void showButton(int buttonID) {
+		gameViewController.showButton(buttonID);
+	}
+	
 	public void showDisplayable(Displayable itemToDisplay) {
 		
 	}
+	
 	public void setPlayesToDisplay(int players) {
 		gameViewController.setNumOfPlayers(players);
 	}
+	
+	//display/switch scene logic
+	
+	
 	
 	//scene creation logic
 	public void makeStartMenuViewController() {
@@ -124,10 +142,5 @@ public class ViewController{
 			e.printStackTrace();
 		}
 	}
-	
-//	//temp for testing
-//	public void close() {
-//		stage.hide();
-//	}
 	
 }

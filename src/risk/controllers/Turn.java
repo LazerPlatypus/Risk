@@ -1,16 +1,9 @@
 package risk.controllers;
 
 import java.util.ArrayList;
-import java.util.concurrent.BlockingDeque;
-
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
-
-import com.sun.xml.internal.ws.assembler.jaxws.MustUnderstandTubeFactory;
-
 import risk.controllers.viewControllers.AlertBox;
 import risk.controllers.viewControllers.NumberOptionBox;
 import risk.controllers.viewControllers.NumberSliderBox;
-import risk.controllers.viewControllers.ViewController;
 import risk.models.Card;
 import risk.models.Country;
 import risk.models.Player;
@@ -23,15 +16,53 @@ import risk.models.enums.UnitStatus;
 
 public class Turn extends GameSetup{
 	
+	//Class variables
+	//because turns can be skipped, and the flow of the project is fairly fluid,
+	//we are using booleans to figure out what phase of the turn it is.
+	//traditionally, turns are taken as follows:
+	//upkeep ~ where you get units for the turn and place them
+	//attack ~ where you can attack other territories as many times as you have units for
+	//free move ~ where you can move units from ONE territory to ONE other territory
+	//endphase ~ where you get a card if you earned one.
+	//however, the player doens't have to attack
+	//and you can skip the free move -- making it more complicated to keep track of
 	private static boolean isAttackPhase = false;
 	private static boolean isFreeMovePhase = false;
 	private static boolean getsCard = false;
+	public static Territory territoryToAttackFrom;
+	private static Territory territoryToMoveFrom;
+	
+	//start logic
+	
 	public static void start() {
 		viewController.showGame();
 		currentBoard.setGameState(new int[] {1,0});
 		System.out.println("Game setup finished!");
 		upKeep();
 	}
+	
+	//game flow logic ~~ organized by the earliest point the user can trigger it.
+	
+	public static void upKeep() {
+		//hides the 'place unit' button used by GameSetup
+		viewController.hideButton(0);
+		//calculates the number of units the player has earned
+		int unitsToRecieve = calculateUnitsRecieved();
+		//adds a new unit to the current players inactive unit list for every unit they earned
+		for (int i = 0; i < unitsToRecieve; i++) {
+			currentBoard.getActivePlayer().getInactiveUnits().add(new Unit(currentBoard.getActivePlayer().getActiveUnits().get(0).getUnitColor(), UnitStatus.INACTIVE));
+		}
+		//informs the user who's turn it is, and provides instructions
+		currentView.showError("It is "+currentBoard.getActivePlayer().displayName()+"'s turn.\nplace all your inactive units on territories you control.");
+		//shows the placeUnit button used by Turn
+		viewController.showButton(7);
+	}
+	
+	
+	//if the user want to skip the current phase, this allows them to do it.
+	//if its the attack phase, this will end it and start the freeMovePhase
+	//if its the freeMovePhase, this will end it and start the endTurnPhase.
+	//if its any other phase, it does nothing, but alerts the user that it didn't do anything.
 	
 	public static void next() {
 		if (isAttackPhase) {
@@ -46,31 +77,97 @@ public class Turn extends GameSetup{
 		}
 	}
 	
-	public static void upKeep() {
-		viewController.hideButton(0);
-		int unitsToRecieve = calculateUnitsRecieved();
-		for (int i = 0; i < unitsToRecieve; i++) {
-			currentBoard.getActivePlayer().getInactiveUnits().add(new Unit(currentBoard.getActivePlayer().getActiveUnits().get(0).getUnitColor(), UnitStatus.INACTIVE));
-		}
-		currentView.showError("It is "+currentBoard.getActivePlayer().displayName()+"'s turn.\nplace all your inactive units on territories you control.");
-		viewController.showButton(7);
+	//after all the units have been placed, the attackPhase begins.
+	
+	public static void attackPhase() {
+		isAttackPhase = true;
+		//notifies the user that the attack phase has begun
+		AlertBox.display("Attack", "You've entered the attack phase");
+		//hides the 'place unit' button used by Turn
+		viewController.hideButton(7);
+		//shows the 'attack' button
+		viewController.showButton(11);
+		//shows the 'skip' button
 		viewController.showButton(12);
 	}
 	
-	public static void attackPhase() {
-		AlertBox.display("Attack", "You've entered the attack phase");
-		viewController.hideButton(7);
-		isAttackPhase = true;
-		viewController.showButton(11);
-	}
+	//after the attack phase is over, the freeMovePhase begins
+	
 	public static void freeMovePhase() {
-		isAttackPhase = false;
+		isFreeMovePhase = true;	
+		//notifies the user that the free move phase has begun
 		AlertBox.display("Free Move", "You've entered the free move phase");
+		//hides the 'attack' button
+		viewController.hideButton(11);
+		//shows the 'free move' button
 		viewController.showButton(8);
-		isFreeMovePhase = true;
 	}
-	public static Territory territoryToAttackFrom;
-	public static void startAttack() {
+	
+	//after the freeMovePhase is over, endTurn begins
+	
+	public static void endTurn() {
+		//checks if the current player earned a card.
+		if (getsCard) {
+			//gives the current player a card TODO not fully implemented yet
+			currentBoard.getActivePlayer().getCards().add(new Card(UnitName.CALVERY, TerritoryName.GREAT_BRITAIN));
+		}
+		//sets getCard to false for the next player
+		getsCard = false;
+		//increments the turn count
+		turnCount++;
+		//changes the game-state based off the turn count
+		//from: GameSetup
+		//the gameState is based off the phase of the game, and what player is active, so we need to set that.
+		//as we are still in setup, the phase stays 0, but the active player is determined by taking the turnCount
+		//and dividing it by the number of players in PlayerOrder, with the result being what's leftover.
+		currentBoard.setGameState(new int[] {1, turnCount%currentBoard.getPlayerOrder().length});
+		//changes the current player based of the game-state.
+		//from: GameSetup
+		//the active player is just a copy of the GameState, so we find it by taking the index of the PlayerOrder via the GameState 
+		currentBoard.setActivePlayer(currentBoard.getPlayerOrder()[currentBoard.getGameState()[1]]);
+		
+	}
+	
+	//game-play logic. organized by the (rough) order it will probably get called.
+	
+	//basically a copy-paste from GameSetup. the only difference is that every territory is occupied now.
+	public static void placeUnit() {
+		//checks to make sure the selected territory isn't null
+		if (selectedTerritory != null) {
+			//done to reduce calls and increase legibility
+			Player currentPlayer = currentBoard.getActivePlayer();
+			//makes sure that the selected territory is the same color as the player's by grabbing first occupying unit
+			//from the territory, and checking if it's equal to the the color of the first inactive unit of the active player.
+			if (selectedTerritory.getOccupyingUnits().get(0).getUnitColor() == currentPlayer.getActiveUnits().get(0).getUnitColor()) {
+				//done to reduce calls and increase legibility
+				ArrayList<Unit> currentPlayerActiveUnits = currentPlayer.getActiveUnits();
+				//adds a unit to the current players' active units from the current player's inactive units (always takes from the rear so checking index0 is safe)
+				currentPlayerActiveUnits.add(currentPlayer.getInactiveUnits().get(currentPlayer.getInactiveUnits().size()-1));
+				//adds the same unit to the selected territory
+				selectedTerritory.getOccupyingUnits().add(currentPlayer.getInactiveUnits().get(currentPlayer.getInactiveUnits().size()-1));
+				//removes that unit from the current players inactive unit list
+				currentPlayer.getInactiveUnits().remove(currentPlayer.getInactiveUnits().size()-1);
+				//updates the display so the user knows what they did
+				currentView.updateDisplay();
+			} else {
+				//testing purposes
+//				System.out.println("Displaying error");
+				//alerts the user if they try to place a unit in an invalid location
+				AlertBox.display("Whoopsie-doo", "You cannot place a unit there.\nThat space is occupied by an enemy!");
+			}
+			//testing purposes
+//			System.out.println(turnCount);
+			//checks if the player is out of units
+			if (arePlayersOutOfUnits(currentBoard.getActivePlayer())) {
+				//starts the attack phase if true
+				attackPhase();
+			}
+		}
+	}
+	
+	
+	
+	public static void setupAttack() {
 		if (isAttackPhase) {
 			if (territoryToAttackFrom == null) {
 				if (currentBoard.getActivePlayer().getOwnedTerritories().contains(currentTerritory)) {
@@ -100,8 +197,9 @@ public class Turn extends GameSetup{
 			AlertBox.display("Attack", "You can't attack yet");
 		}
 	}
-	private static Territory territoryToMoveFrom;
-	public static void startFreeMove() {
+	
+	
+	public static void setupFreeMove() {
 		if (isFreeMovePhase) {
 			if (territoryToMoveFrom == null) {
 				if (currentBoard.getActivePlayer().getOwnedTerritories().contains(currentTerritory)) {
@@ -121,7 +219,7 @@ public class Turn extends GameSetup{
 						allow = true;
 					}
 				}
-				if (currentBoard.getActivePlayer().getOwnedTerritories().contains(currentTerritory)) {
+				if (currentBoard.getActivePlayer().getOwnedTerritories().contains(currentTerritory) && allow) {
 					AlertBox.display("Free Move", "Moving to: "+currentTerritory.getTerritoryName().toString());
 					freeMove(territoryToMoveFrom, currentTerritory);
 					next();
@@ -171,10 +269,24 @@ public class Turn extends GameSetup{
 			AlertBox.display("Victory", "Attack Sucessful");
 			freeMove(territoryToAttackFrom, territoryToAttack);
 			defendingPlayer.getOwnedTerritories().remove(territoryToAttack);
+			if (defendingPlayer.getOwnedTerritories().size()<1) {
+				Player[] tempPlayerArray = new Player[currentBoard.getPlayerOrder().length-1];
+				int internalCounter = 0;
+				for (int i = 0; i < currentBoard.getPlayerOrder().length; i++) {
+					if (currentBoard.getPlayerOrder()[i]== defendingPlayer) {
+					} else {
+						tempPlayerArray[internalCounter] = currentBoard.getPlayerOrder()[i];
+						internalCounter++;
+					}
+				}
+				if (currentBoard.getPlayerOrder().length<2) {
+					RiskController.winGame();
+				}
+			}
 			currentBoard.getActivePlayer().getOwnedTerritories().add(territoryToAttack);
 			getsCard = true;
 		} else {
-			AlertBox.display("Loss", "Attack was unsuccessful"); //successful couldnt spell
+			AlertBox.display("Loss", "Attack was unsuccessful"); //successful couldn't spell
 		}
 		Turn.territoryToAttackFrom = null;
 	}
@@ -189,15 +301,7 @@ public class Turn extends GameSetup{
 		Turn.territoryToMoveFrom = null;
 	}
 	
-	public static void endTurn() {
-		if (getsCard) {
-			currentBoard.getActivePlayer().getCards().add(new Card(UnitName.CALVERY, TerritoryName.GREAT_BRITAIN));
-		}
-		getsCard = false;
-		turnCount++;
-		currentBoard.setActivePlayer(currentBoard.getPlayerOrder()[turnCount%currentBoard.getPlayerOrder().length]);
-		
-	}
+	
 	
 	public static int calculateUnitsRecieved() {
 		int unitsToRecieve = 0;
@@ -219,26 +323,5 @@ public class Turn extends GameSetup{
 		return unitsToRecieve;
 	}
 	
-	public static void placeUnit() {
-		if (selectedTerritory != null) {
-			if (selectedTerritory.getOccupyingUnits().get(0).getUnitColor() == currentBoard.getActivePlayer().getActiveUnits().get(0).getUnitColor()) {
-			Player currentPlayer = currentBoard.getActivePlayer();
-			ArrayList<Unit> currentPlayerActiveUnits = currentPlayer.getActiveUnits();
-			if (currentPlayer.getInactiveUnits().size()>0) {
-				currentPlayerActiveUnits.add(currentPlayer.getInactiveUnits().get(currentPlayer.getInactiveUnits().size()-1));
-				selectedTerritory.getOccupyingUnits().add(currentPlayer.getInactiveUnits().get(currentPlayer.getInactiveUnits().size()-1));
-				currentPlayer.getInactiveUnits().remove(currentPlayer.getInactiveUnits().size()-1);
-			}
-			currentView.updateDisplay();
-			turnCount++;
-			} else {
-				System.out.println("Displaying error");
-				AlertBox.display("Whoopsie-doo", "You cannot place a unit there.\nThat space is occupied by an enemy!");
-			}
-			System.out.println(turnCount);
-			if (arePlayersOutOfUnits(currentBoard.getActivePlayer())) {
-				attackPhase();
-			}
-		}
-	}
+	
 }

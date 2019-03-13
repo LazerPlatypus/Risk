@@ -1,24 +1,14 @@
 package risk.controllers.viewControllers;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.concurrent.BlockingDeque;
-
-import javax.sound.midi.VoiceStatus;
-
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
 import risk.controllers.RiskController;
+import risk.controllers.viewControllers.interfaces.View;
 
 public class StartMenuViewController implements View, Initializable{
 	@FXML
@@ -31,14 +21,17 @@ public class StartMenuViewController implements View, Initializable{
 	private Button exitGameButton;
 	@FXML
 	private Label errorLabel;
+	
 	private ViewController viewController;
 	
-	public StartMenuViewController() {
-	}
+	
 	
 	
 	public void setViewController(ViewController viewController) {
 		this.viewController = viewController;
+	}
+	public ViewController getViewController() {
+		return viewController;
 	}
 	@FXML
 	private void buttonPressed(ActionEvent action) {

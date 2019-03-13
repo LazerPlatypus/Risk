@@ -1,4 +1,4 @@
-package risk.controllers.viewControllers;
+package risk.controllers.viewControllers.interfaces;
 
 public interface Displayable {
 	public String displayName();

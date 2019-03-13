@@ -1,7 +1,8 @@
 package risk.controllers;
 
-import javax.sound.midi.Soundbank;
+//Quick little tools import from another project
 
+//This capitalizes the first character of a string, and sets the rest to lowercase
 public class Tools {
 	public static String capitalizeWord(String str) { 
 		str = str.trim();
@@ -10,6 +11,7 @@ public class Tools {
 		return sBuilder.toString();
 	}
 	
+	//this replaces every underscore in a string with spaces, and capitalizes each word made.
 	public static String replaceUnderscoreAndCapitilizeEachWord(String input) { 
 		String output = "";
 		if (input != null) {

@@ -3,7 +3,7 @@ package risk.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import risk.controllers.viewControllers.Displayable;
+import risk.controllers.viewControllers.interfaces.Displayable;
 import risk.models.enums.TerritoryName;
 
 public class Territory implements Selection, Displayable,Serializable{
