@@ -8,6 +8,7 @@ import risk.controllers.viewControllers.interfaces.Displayable;
 import risk.controllers.viewControllers.interfaces.View;
 import risk.controllers.viewControllers.ConfirmBox;
 import risk.models.Board;
+import risk.models.Player;
 import risk.models.Territory;
 import risk.models.enums.CountryName;
 import risk.models.enums.TerritoryName;
@@ -91,14 +92,32 @@ public class RiskController {
 		return currentBoard.getPlayerOrder()[0];
 	}
 	
+	public static Displayable[] getPlayers() {
+		return currentBoard.getPlayers();
+	}
+	
+	public static String[][] getPlayerStats() {
+		String[][] playerStats = new String[currentBoard.getPlayers().length][6];
+		//done to reduce calls and enhance readability
+		Player[] players = currentBoard.getPlayers();
+		for (int i = 0; i < playerStats.length; i++) {
+			playerStats[i][0] = "Most active units at once: "+players[i].getMostActiveUnits();
+			playerStats[i][1] = "Most owned territories at once: "+players[i].getMostOwnedTerritories();
+			playerStats[i][2] = "Number of territories taken: "+players[i].getTerritoriesTaken();
+			playerStats[i][3] = "Number of territories lost: "+players[i].getTerritoriesLost();
+			playerStats[i][4] = "Number of times you attacked: "+players[i].getTimesAttacked();
+			playerStats[i][5] = "Number of times you got attacked: "+players[i].getTimeDefended();
+		}
+		return playerStats;
+	}
 	//Game flow Logic
 	
 	public static void startGame(String[] playerNames) {
 		currentBoard = BoardController.CreateBoard(playerNames);
 		TerritoryController.setupAdjacentTerritories();
-		for (Territory territory : currentBoard.getMap().getCountries().get(CountryName.AFRICA).getTerritories().get(TerritoryName.EAST_AFRICA).getAdjacentTerritories()) {
-			System.out.println(territory);
-		}
+//		for (Territory territory : currentBoard.getMap().getCountries().get(CountryName.AFRICA).getTerritories().get(TerritoryName.EAST_AFRICA).getAdjacentTerritories()) {
+//			System.out.println(territory);
+//		}
 		resumeGame();
 	}
 	

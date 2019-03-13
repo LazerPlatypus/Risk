@@ -10,8 +10,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import risk.controllers.RiskController;
 import risk.controllers.viewControllers.interfaces.Displayable;
+import risk.controllers.viewControllers.interfaces.View;
 
-public class WinScreenController {	
+public class WinScreenController implements View {	
 	//FXML Variables
 	
     @FXML
@@ -46,6 +47,26 @@ public class WinScreenController {
     	winnerPortrait.setImage(new Image(getClass().getResourceAsStream("/risk/views/Images/"+winningPlayer.resourceLocation()+".png")));
     }
     
+    //Interface Methods
+    
+    @Override
+	public void showError(String error) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void hideError() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateDisplay() {
+		// TODO Auto-generated method stub
+		
+	}
+    
     //Controller Variables
     
     private ViewController viewController;
@@ -55,6 +76,8 @@ public class WinScreenController {
     public void setViewController(ViewController viewController) {
 		this.viewController = viewController;
 	}
+
+	
 
 }
 

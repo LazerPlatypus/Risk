@@ -5,7 +5,7 @@ import java.util.Random;
 
 import risk.models.enums.DieType;
 
-public class Die implements Serializable{
+public class Die implements Serializable, Comparable<Die>{
 	//class variables
 	private DieType dieType;
 	private Random rng;
@@ -41,6 +41,18 @@ public class Die implements Serializable{
 	}
 	public void setOutcome(int outcome) {
 		this.outcome = outcome;
+	}
+
+
+	@Override
+	public int compareTo(Die o) {
+		int compare = 0;
+		if (getOutcome()>o.getOutcome()) {
+			compare = -1;
+		} else if (getOutcome()<o.getOutcome()) {
+			compare = 1;
+		}
+		return compare;
 	}
 	
 	

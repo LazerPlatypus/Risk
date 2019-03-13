@@ -36,8 +36,7 @@
     -fx-font-family: "Arvo", serif;
     -fx-text-fill: linear-gradient(#FFD700, #EEB700);
     -fx-font-size: 14px;
-    -fx-padding: 5 10 5 10;
-    -fx-cursor: hand;
+    -fx-padding: 2 4 2 4
 }
 .button:hover {
 	-fx-background-color: 
@@ -60,38 +59,23 @@
 	-fx-font-size: 12px;
 	-fx-font-family: "Ubuntu", sans-serif;
 }
-TextField {
+.split-pane .split-pane-divider {
+	-fx-background-color: #FFD700;
+	-fx-padding: 0 1 0 1;
+}
+.contextLabel {
+	-fx-border-style: solid none none none;
+	-fx-border-color: #FFD700;
+	-fx-border-width: 2px;
+	
+}
+.scroll-pane .scroll-bar:vertical {
 	-fx-background-color: #444444;
-	-fx-text-fill: #FFD700;
 }
-.combo-box {
-	-fx-background-color: #444444;
-	-fx-text-fill: #FFF920;
-	-fx-cursor: hand;
+.scroll-pane .scroll-bar:vertical .thumb {
+	-fx-background-color: #FFD700
 }
-.combo-box .list-cell {
-	-fx-text-fill: #A0A0A0;
-	-fx-background-color: #444444;
+.instructions {
+	-fx-text-fill: #00FFD7; 
 }
-.combo-box-popup .list-view .list-cell {
-		-fx-text-fill: #A0A0A0;
-	-fx-background-color: #444444;
-	-fx-cursor: hand;
-} 
-.combo-box-popup .list-view .list-cell:hover {
-	-fx-background-color: #666666;
-}
-
-.combo-box-popup .list-view .list-cell:pressed {
-	-fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
-}
-
-.combo-box-popup .list-view{
-	-fx-background-color:#444444;
-} 
-
-
-
-
-
 

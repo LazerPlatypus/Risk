@@ -25,6 +25,9 @@ import risk.models.enums.CountryName;
 import risk.models.enums.TerritoryName;
 
 public class GameViewController implements View, Initializable{
+	
+	//FXML variables
+	
 	//Continents
 	@FXML
 	private Button northAmericaSelector;
@@ -173,38 +176,10 @@ public class GameViewController implements View, Initializable{
 	@FXML
 	private AnchorPane anchorPane;
 	
+	//FXML Methods
 	
-	private Displayable currentItemToDisplay;
-	private ViewController viewController;
-	public void setNumOfPlayers(int players) {
-		switch (players) {
-		case 2:
-			hideButton(3);
-
-		case 3:
-			hideButton(4);
-
-		case 4:
-			hideButton(5);
-
-		case 5:
-			hideButton(6);
-		}
-	}
-	@Override
-	public void showError(String error) {
-		instructionsLabel.setText(error);
-		instructionsLabel.setVisible(true);
-		
-	}
-	@Override
-	public void hideError() {
-		instructionsLabel.setVisible(false);
-		
-	}
-	public void setViewController(ViewController viewController) {
-		this.viewController = viewController;
-	}
+	//originally I thought it would be a bad idea to make a unique class
+	//for each button.. so I used a switch statement... oh, oh, how wrong I was.
 	@FXML
 	private void selectCountry(ActionEvent actionEvent) {
 		Object source = actionEvent.getSource();
@@ -412,13 +387,6 @@ public class GameViewController implements View, Initializable{
 		}
 	}
 	
-	public void updateContextScreen() {
-		contentNameLabel.setText(currentItemToDisplay.displayName());
-		contentInfoLabel.setText(currentItemToDisplay.displayUnits());
-		System.out.println("/risk/views/Images/"+currentItemToDisplay.resourceLocation()+".png");
-		selectedItemView.setImage(new Image(getClass().getResourceAsStream("/risk/views/Images/"+currentItemToDisplay.resourceLocation()+".png")));
-	}
-	
 	@FXML 
 	private void selectPlayer(ActionEvent actionEvent) {
 		Object source = actionEvent.getSource();
@@ -445,6 +413,113 @@ public class GameViewController implements View, Initializable{
 		currentItemToDisplay = RiskController.getPlayerToDisplay(selection);
 		updateContextScreen();
 	}
+	
+	@FXML
+	private void doAuxAction(ActionEvent actionEvent) {
+		int sourceHashCode = actionEvent.getSource().hashCode();
+		if (sourceHashCode == aux1.hashCode()) {
+			GameSetup.placeUnit();
+		}
+		else if (sourceHashCode == aux2.hashCode()) {
+			Turn.placeUnit();
+		}
+		else if (sourceHashCode == aux3.hashCode()) {
+			Turn.setupFreeMove();
+		}
+	}
+	
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		setImageStyles();
+		player3.managedProperty().bind(player3.visibleProperty());
+		player4.managedProperty().bind(player4.visibleProperty());
+		player5.managedProperty().bind(player5.visibleProperty());
+		player6.managedProperty().bind(player6.visibleProperty());	
+		instructionsLabel.managedProperty().bind(instructionsLabel.visibleProperty());
+		aux1.managedProperty().bind(aux1.visibleProperty());
+		aux2.managedProperty().bind(aux2.visibleProperty());
+		aux3.managedProperty().bind(aux3.visibleProperty());
+		button1.managedProperty().bind(button1.visibleProperty());
+		attack.managedProperty().bind(attack.visibleProperty());
+		next.managedProperty().bind(next.visibleProperty());
+		mapView.setPreserveRatio(true);
+		Image mapImage = new Image("/risk/views/Images/risk-1-original.jpg");
+		mapView.setImage(mapImage);
+	}
+	
+	@FXML
+	private void doButtonAction(ActionEvent actionEvent) {
+		int sourceHashCode = actionEvent.getSource().hashCode();
+		if (sourceHashCode == button1.hashCode()) {
+			viewController.showStartMenu();
+		}
+	}
+	
+	@FXML
+	private void attack(ActionEvent actionEvent) {
+		Turn.setupAttack();
+	}
+	
+	@FXML
+	private void next(ActionEvent actionEvent) {
+		Turn.next();
+	}
+	
+	//Interface Methods
+	
+	@Override
+	public void showError(String error) {
+		instructionsLabel.setText(error);
+		instructionsLabel.setVisible(true);
+	}
+	
+	@Override
+	public void hideError() {
+		instructionsLabel.setVisible(false);
+	}
+	
+	@Override
+	public void updateDisplay() {
+		updateContextScreen();
+	}
+	
+	//Controller variables
+	
+	private Displayable currentItemToDisplay;
+	private ViewController viewController;
+	
+	//Constructors
+	
+	
+	//Controller Methods
+	
+	public void setNumOfPlayers(int players) {
+		switch (players) {
+		case 2:
+			hideButton(3);
+
+		case 3:
+			hideButton(4);
+
+		case 4:
+			hideButton(5);
+
+		case 5:
+			hideButton(6);
+		}
+	}
+	
+	public void setViewController(ViewController viewController) {
+		this.viewController = viewController;
+	}
+	
+	public void updateContextScreen() {
+		contentNameLabel.setText(currentItemToDisplay.displayName());
+		contentInfoLabel.setText(currentItemToDisplay.displayUnits());
+//		System.out.println("/risk/views/Images/"+currentItemToDisplay.resourceLocation()+".png");
+		selectedItemView.setImage(new Image(getClass().getResourceAsStream("/risk/views/Images/"+currentItemToDisplay.resourceLocation()+".png")));
+	}
+	
 	public void hideButton(int buttonID) {
 		switch (buttonID) {
 		case 0: aux1.setVisible(false);
@@ -472,6 +547,7 @@ public class GameViewController implements View, Initializable{
 		case 12: next.setVisible(false);
 		}
 	}
+	
 	public void showButton(int buttonID) {
 		switch (buttonID) {
 		case 0: aux1.setVisible(true);
@@ -499,61 +575,6 @@ public class GameViewController implements View, Initializable{
 		case 12: next.setVisible(true);
 		}
 	}
-	@FXML
-	private void doAuxAction(ActionEvent actionEvent) {
-		int sourceHashCode = actionEvent.getSource().hashCode();
-		if (sourceHashCode == aux1.hashCode()) {
-			GameSetup.placeUnit();
-		}
-		else if (sourceHashCode == aux2.hashCode()) {
-			Turn.placeUnit();
-		}
-		else if (sourceHashCode == aux3.hashCode()) {
-			Turn.setupFreeMove();
-		}
-	}
-	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
-		setImageStyles();
-		player3.managedProperty().bind(player3.visibleProperty());
-		player4.managedProperty().bind(player4.visibleProperty());
-		player5.managedProperty().bind(player5.visibleProperty());
-		player6.managedProperty().bind(player6.visibleProperty());	
-		instructionsLabel.managedProperty().bind(instructionsLabel.visibleProperty());
-		aux1.managedProperty().bind(aux1.visibleProperty());
-		aux2.managedProperty().bind(aux2.visibleProperty());
-		aux3.managedProperty().bind(aux3.visibleProperty());
-		button1.managedProperty().bind(button1.visibleProperty());
-		attack.managedProperty().bind(attack.visibleProperty());
-		next.managedProperty().bind(next.visibleProperty());
-		mapView.setPreserveRatio(true);
-		Image mapImage = new Image("/risk/views/Images/risk-1-original.jpg");
-		mapView.setImage(mapImage);
-	}
-	@Override
-	public void updateDisplay() {
-		updateContextScreen();
-		
-	}
-	
-	@FXML
-	private void doButtonAction(ActionEvent actionEvent) {
-		int sourceHashCode = actionEvent.getSource().hashCode();
-		if (sourceHashCode == button1.hashCode()) {
-			viewController.showStartMenu();
-		}
-	}
-	
-	
-	@FXML
-	private void attack(ActionEvent actionEvent) {
-		Turn.setupAttack();
-	}
-	
-	@FXML
-	private void next(ActionEvent actionEvent) {
-		Turn.next();
-	}
 	
 	private void turnOffPickOnBoundsFor(Node n) {
 	    n.setPickOnBounds(false);
@@ -562,7 +583,8 @@ public class GameViewController implements View, Initializable{
 	        turnOffPickOnBoundsFor(c);
 	      }
 	    }
-	  }
+	}
+	
 	private void setImageStyles() {
 		turnOffPickOnBoundsFor(afghanistanSelector);
 		turnOffPickOnBoundsFor(alaskaSelector);
@@ -606,7 +628,6 @@ public class GameViewController implements View, Initializable{
 		turnOffPickOnBoundsFor(westernEuropeSelector);
 		turnOffPickOnBoundsFor(westernUnitedStatesSelector);
 		turnOffPickOnBoundsFor(yakutskSelector);
-		
 	}
 	
 }

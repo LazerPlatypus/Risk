@@ -17,6 +17,9 @@ import risk.controllers.RiskController;
 import risk.controllers.viewControllers.interfaces.View;
 
 public class CreateGameViewController implements View, Initializable{
+	
+	//FXML variables
+	
 	@FXML
 	private Button continueButton;
 	@FXML
@@ -43,51 +46,8 @@ public class CreateGameViewController implements View, Initializable{
 	private HBox player5Options;
 	@FXML
 	private HBox player6Options;
-	private ViewController viewController;
-	public CreateGameViewController() {
-		
-	}
-	public void setViewController(ViewController viewController) {
-		this.viewController = viewController;
-	}
-	@Override
-	public void initialize(URL url, ResourceBundle rb) {
-//		System.out.println("Did this get ran?");
-			//add all the options to the combo box
-		numOfPlayers.getItems().addAll(2,3,4,5,6);
-			//change the number of visible rows to 5
-		numOfPlayers.setVisibleRowCount(5);
-		numOfPlayers.getSelectionModel().selectLast();
-		numOfPlayers.setOnAction(new EventHandler<ActionEvent>() {
-				
-				@Override
-				public void handle(ActionEvent event) {
-					valueChanged(numOfPlayers);
-					
-				}
-			});
-		player3Options.managedProperty().bind(player3Options.visibleProperty());
-		player4Options.managedProperty().bind(player4Options.visibleProperty());
-		player5Options.managedProperty().bind(player5Options.visibleProperty());
-		player6Options.managedProperty().bind(player6Options.visibleProperty());
-		
-	}
-	private void valueChanged(ComboBox<Integer> numOfPlayers) {
-		player3Options.setVisible(false);
-		player4Options.setVisible(false);
-		player5Options.setVisible(false);
-		player6Options.setVisible(false);
-		switch(numOfPlayers.getValue()) {
-		case 6:
-			player6Options.setVisible(true);
-		case 5:
-			player5Options.setVisible(true);
-		case 4:
-			player4Options.setVisible(true);
-		case 3:
-			player3Options.setVisible(true);
-		}
-	}
+	
+	//FXML Methods
 	
 	@FXML
 	private void buttonPressed(ActionEvent actionEvent) {
@@ -143,6 +103,31 @@ public class CreateGameViewController implements View, Initializable{
 	}
 
 	@Override
+	public void initialize(URL url, ResourceBundle rb) {
+//		System.out.println("Did this get ran?");
+			//add all the options to the combo box
+		numOfPlayers.getItems().addAll(2,3,4,5,6);
+			//change the number of visible rows to 5
+		numOfPlayers.setVisibleRowCount(5);
+		numOfPlayers.getSelectionModel().selectLast();
+		numOfPlayers.setOnAction(new EventHandler<ActionEvent>() {
+				
+				@Override
+				public void handle(ActionEvent event) {
+					valueChanged(numOfPlayers);
+					
+				}
+			});
+		player3Options.managedProperty().bind(player3Options.visibleProperty());
+		player4Options.managedProperty().bind(player4Options.visibleProperty());
+		player5Options.managedProperty().bind(player5Options.visibleProperty());
+		player6Options.managedProperty().bind(player6Options.visibleProperty());
+		
+	}
+	
+	//View Methods
+	
+	@Override
 	public void showError(String error) {
 		// TODO Auto-generated method stub
 		
@@ -158,4 +143,39 @@ public class CreateGameViewController implements View, Initializable{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	//Controller variables
+	
+	private ViewController viewController;
+	
+	//constructors
+	
+	public CreateGameViewController() {
+		
+	}
+	
+	//Controller Methods
+	
+	public void setViewController(ViewController viewController) {
+		this.viewController = viewController;
+	}
+	
+	private void valueChanged(ComboBox<Integer> numOfPlayers) {
+		player3Options.setVisible(false);
+		player4Options.setVisible(false);
+		player5Options.setVisible(false);
+		player6Options.setVisible(false);
+		switch(numOfPlayers.getValue()) {
+		case 6:
+			player6Options.setVisible(true);
+		case 5:
+			player5Options.setVisible(true);
+		case 4:
+			player4Options.setVisible(true);
+		case 3:
+			player3Options.setVisible(true);
+		}
+	}
+	
+	
 }

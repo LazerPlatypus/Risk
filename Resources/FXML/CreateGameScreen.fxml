@@ -8,11 +8,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" maxHeight="400" maxWidth="600" minHeight="400" minWidth="600" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controllers.viewControllers.CreateGameViewController">
+<VBox alignment="CENTER" maxHeight="400" maxWidth="600" minHeight="400" minWidth="600" prefHeight="400.0" prefWidth="600.0" styleClass="root" stylesheets="@style1.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="risk.controllers.viewControllers.CreateGameViewController">
    <children>
       <HBox alignment="BOTTOM_CENTER" prefHeight="29.0" prefWidth="600.0">
          <children>
-            <Label text="number of players:">
+            <Label prefHeight="26.0" prefWidth="102.0" styleClass="contentText" text="number of players:">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
@@ -79,12 +79,12 @@
       </HBox>
       <HBox alignment="CENTER">
          <children>
-            <Button fx:id="backButton" minWidth="100.0" mnemonicParsing="false" onAction="#buttonPressed" prefWidth="75.0" text="Back">
+            <Button fx:id="backButton" minWidth="120.0" mnemonicParsing="false" onAction="#buttonPressed" prefWidth="75.0" text="Back">
                <HBox.margin>
                   <Insets right="10.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="continueButton" minWidth="100.0" mnemonicParsing="false" onAction="#buttonPressed" prefWidth="75.0" text="Continue" />
+            <Button fx:id="continueButton" minWidth="120.0" mnemonicParsing="false" onAction="#buttonPressed" prefHeight="30.0" prefWidth="120.0" text="Continue" />
          </children>
          <VBox.margin>
             <Insets top="20.0" />

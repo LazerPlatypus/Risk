@@ -13,6 +13,7 @@ package risk.application;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import risk.controllers.RiskController;
+import risk.controllers.viewControllers.CardTradeBox;
 
 public class Main extends Application{
 
@@ -23,7 +24,7 @@ public class Main extends Application{
 	@Override
 	public void start(Stage primaryStage) {
 //		ViewController.initilizeView(primaryStage);
-		RiskController.run(primaryStage);
+//		RiskController.run(primaryStage);
 	}
 
 }

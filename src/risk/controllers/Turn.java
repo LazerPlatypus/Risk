@@ -1,19 +1,22 @@
 package risk.controllers;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 
 import risk.controllers.viewControllers.AlertBox;
+import risk.controllers.viewControllers.CardTradeBox;
 import risk.controllers.viewControllers.ConfirmBox;
+import risk.controllers.viewControllers.DieBox;
 import risk.controllers.viewControllers.NumberOptionBox;
 import risk.controllers.viewControllers.NumberSliderBox;
 import risk.models.Card;
 import risk.models.Country;
+import risk.models.Die;
 import risk.models.Player;
 import risk.models.Territory;
 import risk.models.Unit;
-import risk.models.enums.TerritoryName;
 import risk.models.enums.UnitColor;
-import risk.models.enums.UnitName;
 import risk.models.enums.UnitStatus;
 
 public class Turn extends GameSetup{
@@ -37,9 +40,19 @@ public class Turn extends GameSetup{
 	//start logic
 	
 	public static void start() {
+		viewController.setPlayesToDisplay(currentBoard.getPlayerOrder().length);
 		viewController.showGame();
-		currentBoard.setGameState(new int[] {1,0});
-		System.out.println("Game setup finished!");
+		turnCount = currentBoard.getGameState()[1];
+		currentBoard.setActivePlayer(currentBoard.getPlayerOrder()[turnCount]);
+//		System.out.println("Game setup finished!");
+		//hides the 'place unit' button used in Turn
+		viewController.hideButton(7);
+				//hides the 'free move' button used in Turn
+		viewController.hideButton(8);
+				//hides the 'next' button used in Turn
+		viewController.hideButton(12);
+				//hides the 'attack' button used in Turn
+		viewController.hideButton(11);
 		upKeep();
 	}
 	
@@ -49,6 +62,8 @@ public class Turn extends GameSetup{
 		//hides the 'place unit' button used by GameSetup
 		viewController.hideButton(0);
 		//calculates the number of units the player has earned
+		isAttackPhase = false;
+		isFreeMovePhase = false;
 		int unitsToRecieve = calculateUnitsRecieved();
 		//adds a new unit to the current players inactive unit list for every unit they earned
 		for (int i = 0; i < unitsToRecieve; i++) {
@@ -110,8 +125,15 @@ public class Turn extends GameSetup{
 	public static void endTurn() {
 		//checks if the current player earned a card.
 		if (getsCard) {
-			//gives the current player a card TODO not fully implemented yet
-			currentBoard.getActivePlayer().getCards().add(new Card(UnitName.CALVERY, TerritoryName.GREAT_BRITAIN));
+			//gives the current player a card 
+			if (currentBoard.getUndrawnCards().size()>0) {
+				Random rng = new Random();
+				Card card = currentBoard.getUndrawnCards().get(rng.nextInt(currentBoard.getUndrawnCards().size()));
+				currentBoard.getUndrawnCards().remove(card);
+				currentBoard.getActivePlayer().getCards().add(card);
+			} else {
+				AlertBox.display("Draw Card", "There are no more cards remaining");
+			}
 		}
 		//sets getCard to false for the next player
 		getsCard = false;
@@ -138,6 +160,7 @@ public class Turn extends GameSetup{
 		int unitsToRecieve = 0;
 		//players get 1 unit per territory
 		unitsToRecieve += currentBoard.getActivePlayer().getOwnedTerritories().size();
+		System.out.println(unitsToRecieve);
 		//players get 5 units per country owned, to check if the player owned a country, we need to:
 		//save the color of the player, it makes the code easier to read, and reduces calls
 		UnitColor colorToCheckFor = currentBoard.getActivePlayer().getActiveUnits().get(0).getUnitColor();
@@ -164,8 +187,76 @@ public class Turn extends GameSetup{
 				unitsToRecieve += 5;
 			}
 		}
-		//TODO implement card trading for units
+		
+		
+		System.out.println(unitsToRecieve);
+		unitsToRecieve += setupTradeCards();
+		System.out.println(unitsToRecieve);
 		return unitsToRecieve;
+	}
+	
+	public static int setupTradeCards() {
+		int unitsToAdd = 0;
+		ArrayList<Card> currentPlayerCards = currentBoard.getActivePlayer().getCards();
+		ArrayList<Card[]> cardPairs = new ArrayList<>();
+		ArrayList<Card> cardPair = new ArrayList<>();
+		for (Card card : currentPlayerCards) {
+			cardPair.add(card);
+		}
+		if (currentPlayerCards.size()==4) {
+			cardPair.add(currentPlayerCards.get(0));
+		} 
+		else if (currentPlayerCards.size()==5) {
+			cardPair.add(currentPlayerCards.get(0));
+			cardPair.add(currentPlayerCards.get(1));
+		}
+		if (cardPair.size()>2) {
+			for (int i = 2; i < cardPair.size(); i++) {
+				if (cardPair.get(i-2).getUnitOnCard() == cardPair.get(i-1).getUnitOnCard() && cardPair.get(i-1).getUnitOnCard() == cardPair.get(i).getUnitOnCard()) {
+					cardPairs.add(new Card[] {cardPair.get(i-2), cardPair.get(i-1), cardPair.get(i)});
+				}
+				else if (cardPair.get(i-2).getUnitOnCard() != cardPair.get(i-1).getUnitOnCard() && cardPair.get(i-1).getUnitOnCard() != cardPair.get(i).getUnitOnCard() && cardPair.get(i).getUnitOnCard() != cardPair.get(i-2).getUnitOnCard()) {
+					cardPairs.add(new Card[] {cardPair.get(i-2), cardPair.get(i-1), cardPair.get(i)});
+				}
+			}
+		}
+		if (currentPlayerCards.size()>4) {
+			AlertBox.display("Trade Cards", "You have 5 cards, you must trade your cards");
+			unitsToAdd = tradeCards(cardPairs, false);
+		}
+		else if (cardPair.size()>1) {
+			if (ConfirmBox.display("Trade Cards", "You can trade cards. would you like to?")) {
+				unitsToAdd = tradeCards(cardPairs, true);
+			}
+		}
+		return unitsToAdd;
+	}
+	
+	public static int tradeCards(ArrayList<Card[]> cardPairs, boolean canRefuse) {
+		int unitsToAdd = 0;
+		String[][] cardDescriptions = new String[cardPairs.size()][];
+		for (int i = 0; i < cardPairs.size(); i++) {
+			for (int j = 0; j < cardPairs.get(i).length; j++) {
+				cardDescriptions[i][j] = cardPairs.get(i)[j].getUnitOnCard().toString()+"\n"+cardPairs.get(i)[j].getTerritoryOnCard().toString(); 
+			}
+		}
+		int cardPairToRemove = CardTradeBox.display(cardDescriptions, canRefuse);
+		if (cardPairToRemove>=0) {
+			Card[] cardsToRemove = cardPairs.get(cardPairToRemove);
+			for (Card card : cardsToRemove) {
+				for (Territory territory : currentBoard.getActivePlayer().getOwnedTerritories()) {
+					if (territory.getTerritoryName() == card.getTerritoryOnCard()) {
+						if (unitsToAdd<2) {
+							unitsToAdd +=2;
+						}
+					}
+				}
+				currentBoard.getActivePlayer().getCards().remove(card);
+				currentBoard.getDrawnCards().add(card);
+				unitsToAdd += 5 + (currentBoard.getDrawnCards().size()/3*5);
+			}
+		}
+		return unitsToAdd;
 	}
 	
 	//basically a copy-paste from GameSetup. the only difference is that every territory is occupied now.
@@ -282,46 +373,27 @@ public class Turn extends GameSetup{
 	}
 	
 	//attacking method
-	//TODO this method does a lot more than it's supposed to.
 	
 	public static void attack(Territory territoryToAttackFrom, Territory territoryToAttack) {
 		//find the defending player
 		Player defendingPlayer = getOwnerOfTerritory(territoryToAttack);
 		//loop the attack phase until the attacking territory no longer has more than one unit --meaning the attacker lost
 		//or the defending territory no longer has more than 0 units --meaning the defender lost
-		while (territoryToAttackFrom.getOccupyingUnits().size()>1 && territoryToAttack.getOccupyingUnits().size()>0) {
+		do {
 			//prompt the attacking user for how many units to attack with
 			int numOfUnitsToAttackWith = NumberOptionBox.display("Attack", "How many units do you want to attack with, "+currentBoard.getActivePlayer().displayName()+"?", territoryToAttackFrom.getOccupyingUnits().size());
 			//prompt the defending user for how many units to defend with
 			int numOfUnitsToDefendWith = NumberOptionBox.display("Defend", "How many units do you want to defend with, "+defendingPlayer.displayName()+"?", territoryToAttack.getOccupyingUnits().size()>2?2:territoryToAttack.getOccupyingUnits().size());
-			//testing purposes
-//			System.out.println("Num of units in territory to attack: "+territoryToAttack.getOccupyingUnits().size());
-			//TODO implement dice
-			//while there are still units to attack with
-			while (numOfUnitsToAttackWith > 0) {
-				//if there are more than 0 defending units, kill one per attacking unit
-				if (territoryToAttack.getOccupyingUnits().size()>0) {
-					territoryToAttack.getOccupyingUnits().remove(territoryToAttack.getOccupyingUnits().size()-1);
-				}
-				numOfUnitsToAttackWith--;
-				//testing purposes
-//				System.out.println("units left attacking: "+numOfUnitsToAttackWith);
+			int[] deadUnits = rollDice(numOfUnitsToAttackWith, numOfUnitsToDefendWith);
+			for (int i = 0; i<deadUnits[0]; i++) {
+				territoryToAttackFrom.getOccupyingUnits().remove(territoryToAttackFrom.getOccupyingUnits().size()-1);
+				currentBoard.getActivePlayer().getActiveUnits().remove(currentBoard.getActivePlayer().getActiveUnits().size()-1);
 			}
-//			System.out.println("Num of units in territory to attack: "+territoryToAttack.getOccupyingUnits().size());
-//			System.out.println("Num of units in territory attaking: "+territoryToAttackFrom.getOccupyingUnits().size());
-			//while there are still units to defend with
-			while (numOfUnitsToDefendWith > 0) {
-				//if there are more than one unit in the attacking territory, kill one per defending unit
-				if (territoryToAttackFrom.getOccupyingUnits().size()>1) {
-					territoryToAttackFrom.getOccupyingUnits().remove(territoryToAttackFrom.getOccupyingUnits().size()-1);
-				}
-				numOfUnitsToDefendWith--;
-				//testing purposes
-//				System.out.println("units left defending: "+numOfUnitsToDefendWith);
+			for (int i = 0; i<deadUnits[1]; i++) {
+				territoryToAttack.getOccupyingUnits().remove(territoryToAttack.getOccupyingUnits().size()-1);
+				defendingPlayer.getActiveUnits().remove(defendingPlayer.getActiveUnits().size()-1);
 			}
-			//testing purposes
-//			System.out.println("Num of units in territory attaking: "+territoryToAttackFrom.getOccupyingUnits().size());
-		}
+		} while (territoryToAttackFrom.getOccupyingUnits().size()>1 && territoryToAttack.getOccupyingUnits().size()>0 && ConfirmBox.display("Attack", "Keep attacking?"));
 		//if either one of the previous conditions are no longer met:
 		//if the attaking territory has more than one unit, they won.
 		if (territoryToAttackFrom.getOccupyingUnits().size()>1) {
@@ -333,7 +405,6 @@ public class Turn extends GameSetup{
 			defendingPlayer.getOwnedTerritories().remove(territoryToAttack);
 			//add the territory to the attackers list of owned territories
 			currentBoard.getActivePlayer().getOwnedTerritories().add(territoryToAttack);
-			//the player attacked and won a territory, so they get a card TODO not fully implemented
 			getsCard = true;
 		} else {
 			//notifies the player that they did not win
@@ -343,6 +414,43 @@ public class Turn extends GameSetup{
 		Turn.territoryToAttackFrom = null;
 		//check to see if that eliminated the player
 		checkForElimination(defendingPlayer);
+	}
+	
+	public static int[] rollDice(int attackers, int defenders) {
+		Die[] attackDice = new Die[attackers];
+		for (int i = 0; i < attackers; i++) {
+			attackDice[i] = currentBoard.getAttackDice()[i]; 
+			attackDice[i].setOutcome(attackDice[i].getRng().nextInt(6)+1);
+		}
+		Die[] defenceDice = new Die[defenders];
+		for (int i = 0; i < defenders; i++) {
+			defenceDice[i] = currentBoard.getDefenceDice()[i];
+			defenceDice[i].setOutcome(defenceDice[i].getRng().nextInt(6)+1);
+		}
+		Arrays.sort(attackDice);
+		Arrays.sort(defenceDice);
+		int attackersDead = 0;
+		int defendersDead = 0;
+		for (int i = 0; i<defenceDice.length; i++) {
+			if ((attackDice.length-1)> i) {
+				if (attackDice[i].getOutcome()>defenceDice[i].getOutcome()) {
+					defendersDead++;
+				} else {
+					attackersDead++;
+				}
+			}
+				
+		}
+		int[] attackOutcomes = new int[attackDice.length];
+		for (int i = 0; i < attackOutcomes.length; i++) {
+			attackOutcomes[i]= attackDice[i].getOutcome(); 
+		}
+		int[] defenceOutcomes = new int[defenceDice.length];
+		for (int i = 0; i < defenceOutcomes.length; i++) {
+			defenceOutcomes[i]= defenceDice[i].getOutcome(); 
+		}
+		DieBox.display(attackOutcomes, defenceOutcomes, attackersDead, defendersDead);
+		return new int[] {attackersDead, defendersDead};
 	}
 	
 	//very similar to setupAttack() this makes sure that the player has selected

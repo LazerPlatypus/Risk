@@ -3,7 +3,6 @@ package risk.models;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import javafx.geometry.Side;
 import risk.controllers.viewControllers.interfaces.Displayable;
 
 public class Player implements Selection, Displayable, Serializable{
@@ -18,7 +17,7 @@ public class Player implements Selection, Displayable, Serializable{
 	private int territoriesTaken;
 	private int territoriesLost;
 	private int timesAttacked;
-	private int timeDefended;
+	private int timesDefended;
 	
 	
 	//constructors
@@ -146,7 +145,7 @@ public class Player implements Selection, Displayable, Serializable{
 		return territoriesTaken;
 	}
 	public int getTimeDefended() {
-		return timeDefended;
+		return timesDefended;
 	}
 	public int getTimesAttacked() {
 		return timesAttacked;
@@ -164,7 +163,7 @@ public class Player implements Selection, Displayable, Serializable{
 		this.territoriesTaken = territoriesTaken;
 	}
 	public void setTimeDefended(int timeDefended) {
-		this.timeDefended = timeDefended;
+		this.timesDefended = timeDefended;
 	}
 	public void setTimesAttacked(int timesAttacked) {
 		this.timesAttacked = timesAttacked;

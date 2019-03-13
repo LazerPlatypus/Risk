@@ -11,6 +11,9 @@ import risk.controllers.RiskController;
 import risk.controllers.viewControllers.interfaces.View;
 
 public class StartMenuViewController implements View, Initializable{
+	
+	//FXML variables
+	
 	@FXML
 	private Button createGameButton;
 	@FXML
@@ -22,17 +25,8 @@ public class StartMenuViewController implements View, Initializable{
 	@FXML
 	private Label errorLabel;
 	
-	private ViewController viewController;
+	//FXML Methods
 	
-	
-	
-	
-	public void setViewController(ViewController viewController) {
-		this.viewController = viewController;
-	}
-	public ViewController getViewController() {
-		return viewController;
-	}
 	@FXML
 	private void buttonPressed(ActionEvent action) {
 		int buttonHashCode = action.getSource().hashCode();
@@ -52,13 +46,20 @@ public class StartMenuViewController implements View, Initializable{
 			System.out.println("Invalid button pressed. FYI");
 		}
 	}
-
+	
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		errorLabel.managedProperty().bind(errorLabel.visibleProperty());
+		hideError();
+	}
+	
+	//Interface Methods
+	
 	@Override
 	public void showError(String error) {
 		errorLabel.setText(error);
 		errorLabel.setVisible(true);	
 	}
-
 
 	@Override
 	public void hideError() {
@@ -66,18 +67,33 @@ public class StartMenuViewController implements View, Initializable{
 	}
 
 	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		errorLabel.managedProperty().bind(errorLabel.visibleProperty());
-		hideError();
-
-		
+	public void updateDisplay() {		
 	}
-
-	@Override
-	public void updateDisplay() {
-		// TODO Auto-generated method stub
-		
+	
+	//Constructors
+	
+	
+	//Controller variables
+	
+	private ViewController viewController;		
+	
+	//Controller Methods
+	
+	public void setViewController(ViewController viewController) {
+		this.viewController = viewController;
 	}
+	
+	public ViewController getViewController() {
+		return viewController;
+	}
+	
+	
+	
+	
+	
+	
+
+	
 	
 	
 
